@@ -202,12 +202,6 @@ section:last-of-type {
  display: none;
 }
 
-.zoomHomeV  {
- position: absolute;
- margin-top: -155px; 
- display: none;
-}
-
 .next-section {
  margin-left: auto;
  margin-right: auto;
