@@ -202,7 +202,7 @@ section:last-of-type {
  display: none;
 }
 
-.zoomHome,.zoomHomeV  {
+.zoomHomeV  {
  position: absolute;
  margin-top: -155px; 
  display: none;
