@@ -60,25 +60,7 @@ title: Li Xin's Homepage
 	 </p>
     </div>
    </div>	
-  您是第：<%
-CounterFile = Server.MapPath ("/kjsk/jsq/count.cnt")
-Set fs = CreateObject("Scripting.FileSystemObject")
-On Error Resume Next
-Set a = fs.OpenTextFile(CounterFile, 1, 0, 0)
-usercnt = a.Readline
-set fs = Nothing
-usercnt = FormatNumber(usercnt + 1,0)
-Set fs = CreateObject("Scripting.FileSystemObject")
-set b = fs.CreateTextFile (CounterFile, 1, 0)
-b.WriteLine usercnt
-Set b = Nothing
-Response.Write usercnt
-%>
-<% startdate = DateDiff("d",Now,"02/17/2006")
-if startdate < 0 then startdate = startdate * -1
-avgvpd= Int((usercnt)/startdate)
-%>位访问者，日均：
-<% Response.Write(avgvpd) %>次 
+   
    <div class="next-section margin"><a href="publications.html" class="scrollTo">
     <img src="images/down.png" title="Scroll to next section" alt="scroll" />
    </a></div>
