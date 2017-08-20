@@ -7,8 +7,6 @@
     <body>
 	<button id="btnRefresh">刷新</button>
 	<div id="mychart"></div>
-	<br/>
-	<h3>完整代码参考本页源代码</h3>
 	<script>
 	var dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
 	var w=400;
@@ -70,18 +68,19 @@
             return "rgb(0, 0, " + (d * 10) + ")";
         });
 	}
-	var createDB = function(numValues){
-		dataset=[];
-		var maxValue=100;
-		for(var i=0;i<numValues;i++){
-			var newNumber=Math.floor(Math.random()*maxValue);//0-100的整数
-			dataset.push(newNumber);
-		}
-		return dataset;
-	}
+//	var createDB = function(numValues){
+//		dataset=[];
+//		var maxValue=100;
+//		for(var i=0;i<numValues;i++){
+//			var newNumber=Math.floor(Math.random()*maxValue);//0-100的整数
+//			dataset.push(newNumber);
+//		}
+//		return dataset;
+//	}
+    var dataset=[ 15, 20, 23, 29, 11, 15, 22, 18, 15, 23,21, 22, 25, 10, 28, 27, 16, 18, 13, 35 ];
 	d3.select("#btnRefresh")
 	.on("click",function(){
-		dataset = createDB(dataset.length);
+//		dataset = createDB(dataset.length);
   		updateChart(dataset);
 	});
 	</script>
