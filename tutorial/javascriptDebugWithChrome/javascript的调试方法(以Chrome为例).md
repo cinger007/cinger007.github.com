@@ -1,5 +1,7 @@
 # Javascript的调试方法(以Chrome为例)
 
+版权：中国石油大学（华东）可视分析小组
+
 ## 一、浏览器窗口的解释
 
 ### （一）打开调试窗口
@@ -248,3 +250,5 @@ console.log(number.toString().length);
 ​        同时，console.log可以为我们提供灵活的变量输出，方便检查脚本中变量的各种属性。
 
 ​        
+
+联系人：李昕                              邮箱：lix@upc.edu.cn
