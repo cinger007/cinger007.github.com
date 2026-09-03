@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>论文成果 · XAI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #f5f7fa;
+            color: #2c3e50;
+            padding: 2rem 1.5rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 头部 + 排序 */
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            background: white;
+            padding: 1rem 1.8rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+        }
+
+        .toolbar h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: #1a2634;
+        }
+
+        .sort-group {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .sort-group label {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .sort-group select {
+            padding: 0.5rem 2rem 0.5rem 1rem;
+            border-radius: 40px;
+            border: 1px solid #dce1e8;
+            background: white;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #1f2a36;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath fill='%23333' d='M6 7L0 0h12z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 12px;
+            cursor: pointer;
+            transition: border 0.2s;
+        }
+
+        .sort-group select:focus {
+            outline: none;
+            border-color: #3b7cff;
+            box-shadow: 0 0 0 3px rgba(59, 124, 255, 0.15);
+        }
+
+        /* 卡片网格 */
+        .card-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* 单篇论文卡片 —— 完全还原原样式 */
+        .publication-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+            padding: 1.8rem 2rem;
+            transition: box-shadow 0.2s ease;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.8rem;
+            align-items: flex-start;
+            border: 1px solid #edf2f7;
+        }
+
+        .publication-card:hover {
+            box-shadow: 0 16px 32px rgba(0,0,0,0.07);
+        }
+
+        .image-container {
+            flex: 0 0 360px;
+            max-width: 360px;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 16px;
+            border: 1px solid #eaeef3;
+            display: block;
+            background: #f0f4fa;
+            object-fit: cover;
+            aspect-ratio: 4 / 3;
+        }
+
+        .content {
+            flex: 1;
+            min-width: 240px;
+        }
+
+        .title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #0b1a2a;
+            margin-bottom: 0.4rem;
+            line-height: 1.4;
+        }
+
+        .journal {
+            font-size: 0.95rem;
+            color: #1f5b9e;
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+
+        .journal .if-badge {
+            background: #eef3fc;
+            padding: 0.1rem 0.6rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: #1f5b9e;
+            margin-left: 0.4rem;
+        }
+
+        .author {
+            font-size: 0.92rem;
+            color: #4a5a6e;
+            margin-bottom: 0.6rem;
+        }
+
+        .abstract-container {
+            margin: 0.6rem 0 1rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #2c3e50;
+        }
+
+        .abstract-truncated {
+            display: inline;
+        }
+
+        .abstract-truncated .toggle-text {
+            color: #3b7cff;
+            cursor: pointer;
+            font-weight: 500;
+            margin-left: 0.2rem;
+        }
+
+        .abstract-truncated .toggle-text:hover {
+            text-decoration: underline;
+        }
+		.home-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: #1f5b9e;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 40px;
+            background: #f0f6ff;
+            transition: background 0.2s, color 0.2s;
+            border: 1px solid transparent;
+        }
+        .links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-top: 0.8rem;
+        }
+
+        .links .link {
+            color: #1f5b9e;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-bottom: 1px solid transparent;
+            transition: border 0.15s;
+            padding-bottom: 0.1rem;
+        }
+
+        .links .link:hover {
+            border-bottom-color: #1f5b9e;
+        }
+
+        /* 空状态 */
+        .empty-state {
+            background: white;
+            padding: 4rem 2rem;
+            border-radius: 32px;
+            text-align: center;
+            color: #6b7b8f;
+            font-size: 1.1rem;
+            border: 1px dashed #d0d9e3;
+        }
+
+        /* 响应式 */
+        @media (max-width: 700px) {
+            .toolbar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.8rem;
+                padding: 1.2rem 1.2rem;
+            }
+
+            .publication-card {
+                padding: 1.2rem;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .image-container {
+                flex: 0 0 auto;
+                max-width: 100%;
+                display: flex;
+                justify-content: center;
+            }
+
+            .image-container img {
+                max-width: 180px;
+                width: 100%;
+            }
+        }
+
+        /* 排序标签 (级别) 辅助样式 */
+        .level-tag {
+            display: inline-block;
+            background: #eef3fc;
+            padding: 0.05rem 0.7rem;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #1f5b9e;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+        }
+
+        /* meta 小字 */
+        .meta-year {
+            font-size: 0.85rem;
+            color: #6b7b8f;
+            margin-left: 0.6rem;
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <div class="toolbar">
+        <h1>📄 论文成果</h1>
+		<a href="index.html" class="home-link">
+                <svg viewBox="0 0 24 24" width="18" height="18"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                首页
+            </a>
+        <div class="sort-group">
+            <label for="sortSelect">排序：</label>
+            <select id="sortSelect">
+                <option value="level-desc" selected>级别 (高→低)</option>
+                <option value="level-asc">级别 (低→高)</option>
+                <option value="year-desc">年份 (新→旧)</option>
+                <option value="year-asc">年份 (旧→新)</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="card-grid" id="cardGrid">
+        <!-- 由 JavaScript 动态渲染 -->
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ---------- 原始数据 (从 index.html 提取) ----------
+        const papersData = [
+            {
+                title: "PaperDraw: Intelligent generation system for scientific publications pipeline diagrams",
+                journal: "Visual Informatics (SCI二区)(IF: 3.9)",
+                author: "作者：2023级研究生廖集秀",
+                abstract: "Pipeline diagrams are widely used in scientific publications to communicate model structures, experimental workflows, and technical processes, but creating clear and publication-ready diagrams often requires significant manual effort. This paper presents PaperDraw, an intelligent generation system that automates the creation of publication-ready pipeline diagrams from natural language descriptions or rough sketches, supporting various diagram styles and export formats.",
+                links: {
+                    pdf: "https://authors.elsevier.com/sd/article/S2468-502X(26)00029-X",
+                    bibtex: "@article{li2026paperdraw,  title={PaperDraw: Intelligent generation system for scientific publications pipeline diagrams},  author={Li, Xin and Liao, Jixiu and Xu, Chenglin and Pang, Xianzheng},  journal={Visual Informatics},  pages={100333},  year={2026},  doi={10.1016/j.visinf.2026.100333}}",
+                    gb: "Li X, Liao J, Xu C, et al. PaperDraw: Intelligent generation system for scientific publications pipeline diagrams[J]. Visual Informatics, 2026: 100333. DOI: 10.1016/j.visinf.2026.100333."
+                },
+                img: "assets/img/paperdraw-main.png",
+                year: 2026,
+                level: "SCI二区",
+                levelScore: 2
+            },
+            {
+                title: "CollMatch: semi-supervised remote sensing image semantic segmentation via collaborative perturbation",
+                journal: "Journal of Electronic Imaging (IF: 1.1)",
+                author: "作者：2023级研究生李文龙",
+                abstract: "Semi-supervised semantic segmentation for remote sensing images aims to reduce the dependence on dense pixel-level annotations by learning from a small set of labeled samples and a large amount of unlabeled data. We propose CollMatch, a collaborative perturbation framework that enforces consistency across different perturbations and leverages cross-supervision between two branches to improve segmentation accuracy on remote sensing benchmarks.",
+                links: {
+                    pdf: "https://www.spiedigitallibrary.org/journals/journal-of-electronic-imaging/volume-35/issue-1/013008/CollMatch--semi-supervised-remote-sensing-image-semantic-segmentation-via/10.1117/1.JEI.35.1.013008.short",
+                    bibtex: "@article{li2026collmatch,  title={CollMatch: semi-supervised remote sensing image semantic segmentation via collaborative perturbation},  author={Li, Xin and Li, Wenlong and Yang, Zongchi},  journal={Journal of Electronic Imaging},  volume={35},  number={1},  pages={013008},  year={2026},  doi={10.1117/1.JEI.35.1.013008}}",
+                    gb: "Li X, Li W, Yang Z. CollMatch: semi-supervised remote sensing image semantic segmentation via collaborative perturbation[J]. Journal of Electronic Imaging, 2026, 35(1): 013008. DOI: 10.1117/1.JEI.35.1.013008."
+                },
+                img: "assets/img/CollMatch.png",
+                year: 2026,
+                level: "SCI四区",
+                levelScore: 4
+            },
+            {
+                title: "AttIW-Net: Attention-Driven Extraction of Ocean Internal Waves From SAR Images With Frequency Enhancement and Morphological Adaptation",
+                journal: "IEEE Transactions on Geoscience and Remote Sensing (一区)(IF: 7.5)",
+                author: "作者：2023级研究生战祥杰",
+                abstract: "Ocean internal waves are important mesoscale ocean phenomena that can be observed in synthetic aperture radar (SAR) images. Accurate extraction of internal-wave signatures is challenging because their visual appearance varies greatly. AttIW-Net introduces a frequency enhancement module and morphological adaptation to robustly extract internal waves from SAR imagery, achieving state-of-the-art performance.",
+                links: {
+                    pdf: "https://ieeexplore.ieee.org/document/11506603",
+                    bibtex: "@article{li2026attiwnet,  title={AttIW-Net: Attention-Driven Extraction of Ocean Internal Waves From SAR Images With Frequency Enhancement and Morphological Adaptation},  author={Li, Xin and Zhan, Xiangjie and Yang, Shumin and Meng, Fan and Wang, Jianxin and Zhang, Xudong and Li, Xiaofeng},  journal={IEEE Transactions on Geoscience and Remote Sensing},  volume={64},  pages={4207313},  year={2026},  doi={10.1109/TGRS.2026.3690666}}",
+                    gb: "Li X, Zhan X, Yang S, et al. AttIW-Net: Attention-Driven Extraction of Ocean Internal Waves From SAR Images With Frequency Enhancement and Morphological Adaptation[J]. IEEE Transactions on Geoscience and Remote Sensing, 2026, 64: 4207313. DOI: 10.1109/TGRS.2026.3690666."
+                },
+                img: "assets/img/AttIW-Net主图.png",
+                year: 2026,
+                level: "SCI一区",
+                levelScore: 1
+            },
+            {
+                title: "CauseHSI: Counterfactual-Augmented Domain Generalization for Hyperspectral Image Classification via Causal Disentanglement",
+                journal: "Journal of Imaging (三区)(IF: 3.3)",
+                author: "作者：2023级研究生杨宗驰",
+                abstract: "Cross-scene hyperspectral image (HSI) classification under single-source domain generalization (DG) is a crucial yet challenging task. We formalize this through causal theory and propose CauseHSI, which includes a Counterfactual Generation Module and a Causal Disentanglement Module to improve generalization to unseen target scenes.",
+                links: {
+                    pdf: "https://www.mdpi.com/3697972",
+                    bibtex: "@Article{jimaging12020057,AUTHOR = {Li, Xin and Yang, Zongchi and Li, Wenlong},TITLE = {CauseHSI: Counterfactual-Augmented Domain Generalization for Hyperspectral Image Classification via Causal Disentanglement},JOURNAL = {Journal of Imaging},VOLUME = {12},YEAR = {2026},NUMBER = {2},ARTICLE-NUMBER = {57},URL = {https://www.mdpi.com/2313-433X/12/2/57},PubMedID = {41745422},ISSN = {2313-433X},DOI = {10.3390/jimaging12020057}}",
+                    gb: "Li X, Yang Z, Li W. CauseHSI: Counterfactual-Augmented Domain Generalization for Hyperspectral Image Classification via Causal Disentanglement[J]. Journal of Imaging, 2026, 12(2): 57."
+                },
+                img: "assets/img/CauseHSI主图.png",
+                year: 2026,
+                level: "SCI三区",
+                levelScore: 3
+            },
+            {
+                title: "WaveletHSI: Direct HSI Classification from Compressed Wavelet Coefficients via Sub-Band Feature Extraction and Fusion",
+                journal: "Journal of Imaging (三区)(IF: 3.3)",
+                author: "作者：2023级研究生孙百乐",
+                abstract: "A major computational bottleneck in classifying large-scale hyperspectral images (HSI) is the mandatory data decompression prior to processing. We propose WaveletHSI, a framework that directly classifies from compressed wavelet coefficients, using sub-band feature extraction and cross-attention fusion to eliminate decompression overhead.",
+                links: {
+                    pdf: "https://www.mdpi.com/3629810",
+                    bibtex: "@Article{jimaging11120441,AUTHOR = {Li, Xin and Sun, Baile},TITLE = {WaveletHSI: Direct HSI Classification from Compressed Wavelet Coefficients via Sub-Band Feature Extraction and Fusion},JOURNAL = {Journal of Imaging},VOLUME = {11},YEAR = {2025},NUMBER = {12},ARTICLE-NUMBER = {441},DOI = {10.3390/jimaging11120441}}",
+                    gb: "Li X. and Sun B. WaveletHSI: Direct HSI Classification from Compressed Wavelet Coefficients via Sub-Band Feature Extraction and Fusion[J]. Journal of Imaging, 2025, 11(12): 441. https://doi.org/10.3390/jimaging11120441"
+                },
+                img: "assets/img/WaveletHSI.png",
+                year: 2025,
+                level: "SCI三区",
+                levelScore: 3
+            },
+            {
+                title: "Unsupervised Domain Adaptation Semantic Segmentation of Remote Sensing Images With Mask Enhancement and Balanced Sampling",
+                journal: "IEEE TRANSACTIONS ON GEOSCIENCE AND REMOTE SENSING (一区)(IF: 7.5)",
+                author: "作者：2022级研究生邱元博",
+                abstract: "Unsupervised domain adaptation (UDA) aims to improve model performance in the target domain by leveraging labeled data from the source domain while not requiring labeled data in the target domain. We propose a mask enhancement and balanced sampling strategy to improve UDA semantic segmentation for remote sensing images.",
+                links: {
+                    pdf: "https://ieeexplore.ieee.org/document/10841935",
+                    bibtex: "@ARTICLE{10841935,  author={Li, Xin and Qiu, Yuanbo and Liao, Jixiu and Meng, Fan and Ren, Peng},  journal={IEEE Transactions on Geoscience and Remote Sensing},   title={Unsupervised Domain Adaptation Semantic Segmentation of Remote Sensing Images With Mask Enhancement and Balanced Sampling},   year={2025},  volume={},  number={},  pages={1-1},  doi={10.1109/TGRS.2025.3529028}}",
+                    gb: "Li X., Qiu Y., Liao J., Meng F., Ren P. Unsupervised Domain Adaptation Semantic Segmentation of Remote Sensing Images With Mask Enhancement and Balanced Sampling [J]. IEEE Transactions on Geoscience and Remote Sensing, DOI: 10.1109/TGRS.2025.3529028."
+                },
+                img: "assets/img/元博论文主图.png",
+                year: 2025,
+                level: "SCI一区",
+                levelScore: 1
+            },
+            {
+                title: "HF-T2CR:High-Fidelity Thin and Thick Cloud Removal in Optical Satellite Images through SAR Fusion",
+                journal: "IEEE TRANSACTIONS ON GEOSCIENCE AND REMOTE SENSING (一区)(IF: 7.5)",
+                author: "作者：2021级研究生赵晓飞",
+                abstract: "Cloud removal can effectively address cloud contamination in optical remote sensing images. But the simultaneous removal of both thin and thick clouds remains a significant challenge. HF-T2CR fuses SAR and optical data to achieve high-fidelity cloud removal for both thin and thick clouds.",
+                links: {
+                    pdf: "https://ieeexplore.ieee.org/document/10560042",
+                    bibtex: "@ARTICLE{10560042,  author={Li, Xin and Zhao, Xiaofei and Wang, Fusheng and Ren, Peng},  journal={IEEE Transactions on Geoscience and Remote Sensing},   title={HF-T2CR:High-Fidelity Thin and Thick Cloud Removal in Optical Satellite Images through SAR Fusion},   year={2024},  volume={},  number={},  pages={1-1},  doi={10.1109/TGRS.2024.3416128}}",
+                    gb: "Li X., Zhao X., Wang F., Ren P. HF-T2CR: High-Fidelity Thin and Thick Cloud Removal in Optical Satellite Images through SAR Fusion[J]. IEEE Transactions on Geoscience and Remote Sensing, 2024, (1): 1-1."
+                },
+                img: "assets/img/xiaofei.png",
+                year: 2024,
+                level: "SCI一区",
+                levelScore: 1
+            },
+            {
+                title: "SemID: Blind Image Inpainting with Semantic Inconsistency Detection",
+                journal: "Tsinghua Science and Technology (一区)(IF: 6.6)",
+                author: "作者：2020级研究生王志宽",
+                abstract: "Most existing image inpainting methods aim to fill in the missing content in the inside-hole region of the target image. However, the areas to be restored in realistically degraded images are unspecified. SemID detects semantic inconsistencies and performs blind inpainting without requiring mask input.",
+                links: {
+                    pdf: "https://ieeexplore.ieee.org/document/10431730",
+                    bibtex: "@article{li2024semid,  title={SemID: Blind Image Inpainting with Semantic Inconsistency Detection},  author={Li, Xin and Wang, Zhikuan and Chen, Chenglizhao and Tao, Chunfeng and Qiu, Yuanbo and Liu, Junde and Sun, Baile},  journal={Tsinghua Science and Technology},  volume={29},  number={4},  pages={1053--1068},  year={2024},  publisher={TUP}}",
+                    gb: "Li X, Wang Z, Chen C, et al. SemID: Blind Image Inpainting with Semantic Inconsistency Detection[J]. Tsinghua Science and Technology, 2024, 29(4): 1053-1068."
+                },
+                img: "assets/img/kuan.png",
+                year: 2024,
+                level: "SCI一区",
+                levelScore: 1
+            },
+            {
+                title: "Cold-start visualization recommendation driven by large language models for ocean data analysis",
+                journal: "Frontiers in Marine Science (二区)",
+                author: "作者：2022级研究生刘雯",
+                abstract: "Marine data is typically large-scale and complex, requiring effective visualization recommendation systems. We propose a cold-start visualization recommendation framework driven by large language models to recommend suitable charts for ocean data without historical user interactions.",
+                links: {
+                    pdf: "https://doi.org/10.3389/fmars.2025.1554241",
+                    bibtex: "@ARTICLE{10.3389/fmars.2025.1554241,  AUTHOR={Li, Xin  and Liao, Jixiu  and Liu, Wen  and Miao, Yu  and Wang, Leyu  and Sun, Shuqing },  TITLE={Cold-start visualization recommendation driven by large language models for ocean data analysis},  JOURNAL={Frontiers in Marine Science},  VOLUME={12},  YEAR={2025},  DOI={10.3389/fmars.2025.1554241}}",
+                    gb: "Li X, Liao J, Liu W, et al. Cold-Start Visualization Recommendation Driven by Large Language Models for Ocean Data Analysis[J]. Frontiers in Marine Science, 12: 1554241."
+                },
+                img: "assets/img/Cold-start.png",
+                year: 2025,
+                level: "SCI二区",
+                levelScore: 2
+            },
+            {
+                title: "Semi-Template Retrosynthesis Prediction with 3D Spatial Structures and Reaction Center Disconnection Rules",
+                journal: "2024 IEEE International Conference on Bioinformatics and Biomedicine (BIBM)",
+                author: "作者：2022级研究生魏子帅",
+                abstract: "Retrosynthesis constructs rational synthetic pathways by predicting reactants from the target product. Previous research utilizing Graph Neural Networks often relies on two-dimensional molecular representations. We propose a semi-template method that integrates 3D spatial structures and reaction center disconnection rules.",
+                links: {
+                    pdf: "https://ieeexplore.ieee.org/document/10822104/",
+                    bibtex: "@INPROCEEDINGS{10822104,  author={Li, Xin and Wei, Zishuai and Wang, Shuang and Han, Peifu and Li, Xue and Song, Tao},  booktitle={2024 IEEE International Conference on Bioinformatics and Biomedicine (BIBM)},   title={Semi-Template Retrosynthesis Prediction with 3D Spatial Structures and Reaction Center Disconnection Rules},   year={2024},  pages={693-700},  doi={10.1109/BIBM62325.2024.10822104}}",
+                    gb: "Li X, Wei Z, Wang S, et al. Semi-Template Retrosynthesis Prediction with 3D Spatial Structures and Reaction Center Disconnection Rules[C]//2024 IEEE International Conference on Bioinformatics and Biomedicine (BIBM). IEEE, 2024: 693-700."
+                },
+                img: "assets/img/子帅论文图.jpg",
+                year: 2024,
+                level: "SCI二区",
+                levelScore: 2
+            },
+            {
+                title: "LCMorph: Exploiting Frequency Cues and Morphological Perception for Low-Contrast Road Extraction in Remote Sensing Images",
+                journal: "Remote Sensing (二区)(IF: 4.2)",
+                author: "作者：2022级研究生杨述敏",
+                abstract: "Road extraction in remote sensing images is crucial for urban planning, traffic navigation, and mapping. However, certain lighting conditions and compositional materials often cause roads to exhibit low contrast. LCMorph leverages frequency cues and morphological perception to improve low-contrast road extraction.",
+                links: {
+                    pdf: "https://www.mdpi.com/3131244",
+                    bibtex: "@article{li2025lcmorph,  title={LCMorph: Exploiting Frequency Cues and Morphological Perception for Low-Contrast Road Extraction in Remote Sensing Images},  author={Li, Xin and Yang, Shumin and Meng, Fan and Li, Wenlong and Yang, Zongchi and Wei, Ruoyu},  journal={Remote Sensing},  volume={17},  number={2},  pages={257},  year={2025},  publisher={MDPI}}",
+                    gb: "Li X, Yang S, Meng F, et al. LCMorph: Exploiting Frequency Cues and Morphological Perception for Low-Contrast Road Extraction in Remote Sensing Images[J]. Remote Sensing, 2025, 17(2): 257."
+                },
+                img: "assets/img/述敏论文图.png",
+                year: 2025,
+                level: "SCI二区",
+                levelScore: 2
+            },
+            {
+                title: "ASTMEN: an adaptive spatiotemporal and multi-element fusion network for ocean surface currents forecasting",
+                journal: "Frontiers in Marine Science (二区)(IF: 3.7)",
+                author: "作者：2021级研究生王富胜",
+                abstract: "Accurate forecasting of ocean surface currents is crucial for the planning of marine activities. Previous studies have often neglected the consideration of multi-element interactions. ASTMEN adaptively fuses spatiotemporal and multi-element features for improved current forecasting.",
+                links: {
+                    pdf: "https://www.frontiersin.org/articles/10.3389/fmars.2023.1281387/full",
+                    bibtex: "@article{li2023astmen,  title={ASTMEN: an adaptive spatiotemporal and multi-element fusion network for ocean surface currents forecasting},  author={Li, Xin and Wang, Fusheng and Song, Tao and Meng, Fan and Zhao, Xiaofei},  journal={Frontiers in Marine Science},  year={2023}}",
+                    gb: "Li X, Wang F, Song T, et al. ASTMEN: an adaptive spatiotemporal and multi-element fusion network for ocean surface currents forecasting[J]. Frontiers in Marine Science, 2023."
+                },
+                img: "assets/img/sheng.jpg",
+                year: 2023,
+                level: "二区",
+                levelScore: 2
+            },
+            {
+                title: "Collision-free Parking Recommendation Based on Multi-agent Reinforcement Learning in Vehicular Crowdsensing",
+                journal: "Digital Communications and Networks (二区)(IF: 7.5)",
+                author: "作者：2021级研究生类兴华",
+                abstract: "The recent proliferation of fifth-generation (5G) networks and sixth-generation (6G) networks has given rise to vehicular crowd sensing (VCS) systems which solve parking collisions by effectively increasing parking efficiency. We propose a multi-agent reinforcement learning based parking recommendation.",
+                links: {
+                    pdf: "https://www.sciencedirect.com/science/article/pii/S2352864823000822?via%3Dihub",
+                    bibtex: "@article{li2023collision,                title={Collision-free Parking Recommendation Based on Multi-agent Reinforcement Learning in Vehicular Crowdsensing},                author={Li, Xin and Lei, Xinghua and Liu, Xiuwen and Xiao, Hang},                journal={Digital Communications and Networks},                year={2023}}",
+                    gb: "Li X, Lei X, Liu X, et al. Collision-free Parking Recommendation Based on Multi-agent Reinforcement Learning in Vehicular Crowdsensing[J]. Digital Communications and Networks, 2023."
+                },
+                img: "assets/img/lei.png",
+                year: 2023,
+                level: "二区",
+                levelScore: 2
+            },
+            {
+                title: "Differentiable Double Clustering with Edge-aware Superpixel Fitting for Unsupervised Image Segmentation",
+                journal: "Displays (二区)(IF: 3.7)",
+                author: "作者：2020级研究生陈晓莹",
+                abstract: "Unsupervised image segmentation is an essential topic in the field of computer vision. We propose a differentiable double clustering framework with edge-aware superpixel fitting that achieves competitive performance without manual labels.",
+                links: {
+                    pdf: "https://www.sciencedirect.com/science/article/pii/S0141938224000854?via%3Dihub",
+                    bibtex: "@article{li2024differentiable,  title={Differentiable double clustering with edge-aware superpixel fitting for unsupervised image segmentation},  author={Li, Xin and Chen, Xiaoying and Qiu, Yuanbo and Tao, Chunfeng and Zheng, Pan},  journal={Displays},  volume={83},  pages={102721},  year={2024}}",
+                    gb: "Li X, Chen X, Qiu Y, et al. Differentiable double clustering with edge-aware superpixel fitting for unsupervised image segmentation[J]. Displays, 2024, 83: 102721."
+                },
+                img: "assets/img/chen.png",
+                year: 2024,
+                level: "SCI二区",
+                levelScore: 2
+            },
+            {
+                title: "A High-Precision Interpretable Framework for Marine Dissolved Oxygen Concentration Inversion",
+                journal: "Frontiers in Marine Science (二区)(IF: 2.8)",
+                author: "作者：2022级研究生刘镇毅",
+                abstract: "Variations in Marine Dissolved Oxygen Concentrations (MDOC) play a critical role in the study of marine ecosystems. We propose a high-precision interpretable framework that combines deep learning with physical constraints for MDOC inversion.",
+                links: {
+                    pdf: "https://www.frontiersin.org/articles/10.3389/fmars.2024.1396277/full",
+                    bibtex: "@article{li2024high,  title={A high-precision interpretable framework for marine dissolved oxygen concentration inversion},  author={Li, Xin and Liu, Zhenyi and Yang, Zongchi and Meng, Fan and Song, Tao},  journal={Frontiers in Marine Science},  volume={11},  pages={1396277},  year={2024}}",
+                    gb: "Li X, Liu Z, Yang Z, et al. A high-precision interpretable framework for marine dissolved oxygen concentration inversion[J]. Frontiers in Marine Science, 2024, 11: 1396277."
+                },
+                img: "assets/img/liu.jpg",
+                year: 2024,
+                level: "SCI二区",
+                levelScore: 2
+            },
+            {
+                title: "FCCText: frequency-color complementary bistream structure for scene text detection",
+                journal: "Journal of Electronic Imaging (四区)(IF: 1)",
+                author: "作者：2022级研究生韩睿毅",
+                abstract: "Current scene text detection methods mainly employ RGB domain information. FCCText introduces a frequency-color complementary bistream structure to improve detection robustness in challenging scenes.",
+                links: {
+                    pdf: "https://doi.org/10.1117/1.JEI.33.4.043037",
+                    bibtex: "@article{han2024fcctext,  title={FCCText: frequency-color complementary bistream structure for scene text detection},  author={Han, Ruiyi and Li, Xin},  journal={Journal of Electronic Imaging},  volume={33},  number={4},  pages={043037--043037},  year={2024}}",
+                    gb: "Han R, Li X. FCCText: frequency-color complementary bistream structure for scene text detection[J]. Journal of Electronic Imaging, 2024, 33(4): 043037-043037."
+                },
+                img: "assets/img/睿毅论文图.png",
+                year: 2024,
+                level: "SCI四区",
+                levelScore: 4
+            },
+            {
+                title: "Human-like Cognition: Visual Features Grouping for Hard-to-group Text Dataset",
+                journal: "Journal of Electronic Imaging (四区)(IF: 1)",
+                author: "作者：2020级研究生刘航源",
+                abstract: "Most existing arbitrary shape text detection methods employ connected components and text center lines for grouping text instances. We propose a human-like cognition grouping method that leverages visual features for hard-to-group text instances.",
+                links: {
+                    pdf: "https://www.spiedigitallibrary.org/journals/journal-of-electronic-imaging/volume-33/issue-2/023002/Human-like-cognition--visual-features-grouping-for-hard-to/10.1117/1.JEI.33.2.023002.short",
+                    bibtex: "@article{li2024human,  title={Human-like cognition: visual features grouping for hard-to-group text dataset},  author={Li, Xin and Liu, Hangyuan and Tao, Chunfeng and Han, Ruiyi and Yang, Shumin},  journal={Journal of Electronic Imaging},  volume={33},  number={2},  pages={023002--023002},  year={2024}}",
+                    gb: "Li X, Liu H, Tao C, et al. Human-like cognition: visual features grouping for hard-to-group text dataset[J]. Journal of Electronic Imaging, 2024, 33(2): 023002-023002."
+                },
+                img: "assets/img/hang.png",
+                year: 2024,
+                level: "SCI四区",
+                levelScore: 4
+            }
+        ];
+
+        // ---------- 辅助函数 ----------
+        function getLevelScore(levelStr) {
+            if (levelStr.includes('一区')) return 1;
+            if (levelStr.includes('二区')) return 2;
+            if (levelStr.includes('三区')) return 3;
+            if (levelStr.includes('四区')) return 4;
+            if (levelStr.includes('会议')) return 5;
+            return 6; // 其他
+        }
+
+        // 渲染卡片
+        function renderCards(papers) {
+            const grid = document.getElementById('cardGrid');
+            if (!papers.length) {
+                grid.innerHTML = `<div class="empty-state">暂无匹配的论文</div>`;
+                return;
+            }
+
+            let html = '';
+            papers.forEach(p => {
+                const abstractText = p.abstract || '';
+                const truncated = abstractText.length > 120 ? abstractText.slice(0, 120) + '...' : abstractText;
+                const showToggle = abstractText.length > 120;
+
+                const levelDisplay = p.level || '';
+
+                html += `
+                    <div class="publication-card">
+                        <div class="image-container">
+                            <img src="${p.img || 'assets/img/placeholder.png'}" alt="${p.title}" loading="lazy">
+                        </div>
+                        <div class="content">
+                            <div class="title">${p.title} <span class="meta-year">(${p.year})</span></div>
+                            <div class="journal">${p.journal}</div>
+                            <div class="author">${p.author}</div>
+                            <div class="abstract-container">
+                                <span class="abstract-truncated">
+                                    ${truncated}
+                                    ${showToggle ? '<span class="toggle-text" onclick="this.parentElement.innerText = this.parentElement.innerText.replace(\'...\', \'\') + \' \' + \'' + p.abstract.replace(/'/g, "\\'") + '\'; this.style.display=\'none\';">展开</span>' : ''}
+                                </span>
+                            </div>
+                            <div class="links">
+                                <a href="${p.links.pdf}" target="_blank" class="link">PDF</a>
+                                <a href="#" class="link" onclick="alert('BibTeX: ${p.links.bibtex.replace(/'/g, "\\'")}'); return false;">BibTeX</a>
+                                <a href="#" class="link" onclick="alert('GB/T: ${p.links.gb.replace(/'/g, "\\'")}'); return false;">GB/T</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = html;
+        }
+
+        // 排序逻辑
+        function sortPapers(papers, sortKey) {
+            const copy = [...papers];
+            switch (sortKey) {
+                case 'level-desc':
+                    copy.sort((a, b) => (a.levelScore || getLevelScore(a.level)) - (b.levelScore || getLevelScore(b.level)));
+                    break;
+                case 'level-asc':
+                    copy.sort((a, b) => (b.levelScore || getLevelScore(b.level)) - (a.levelScore || getLevelScore(a.level)));
+                    break;
+                case 'year-desc':
+                    copy.sort((a, b) => b.year - a.year);
+                    break;
+                case 'year-asc':
+                    copy.sort((a, b) => a.year - b.year);
+                    break;
+                default:
+                    break;
+            }
+            return copy;
+        }
+
+        // ---------- 初始化 ----------
+        const selectEl = document.getElementById('sortSelect');
+        let currentPapers = [...papersData];
+
+        function updateAndRender() {
+            const sortVal = selectEl.value;
+            const sorted = sortPapers(currentPapers, sortVal);
+            renderCards(sorted);
+        }
+
+        selectEl.addEventListener('change', updateAndRender);
+
+        // 首次渲染
+        updateAndRender();
+
+        // 暴露全局函数给内联 onclick 使用（展开功能）
+        window.toggleAbstract = function(el, fullText) {
+            el.parentElement.innerText = fullText;
+        };
+    })();
+</script>
+</body>
+</html>

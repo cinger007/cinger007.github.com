@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>李航统计学习方法 · 多媒体笔记</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background-color: #f1f5f9;
+            color: #1e293b;
+            line-height: 1.7;
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .page-container {
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            padding: 2.5rem 3rem;
+        }
+
+        /* ===== 顶部导航 ===== */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #eef2f6;
+            padding-bottom: 1.2rem;
+        }
+
+        .page-header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .page-header h1 i {
+            color: #2563eb;
+        }
+        .page-header .subtitle {
+            font-size: 0.9rem;
+            color: #64748b;
+            font-weight: 400;
+            margin-left: 0.5rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-home {
+            background: #0f172a;
+            color: white;
+            border: none;
+            padding: 0.5rem 1.4rem;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-home:hover {
+            background: #1e293b;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.25);
+        }
+
+        /* ===== 简介 ===== */
+        .intro-box {
+            background: #f0f7ff;
+            border-left: 4px solid #2563eb;
+            padding: 1.2rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        .intro-box p {
+            margin-bottom: 0.5rem;
+        }
+        .intro-box a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .intro-box a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== 章节 ===== */
+        .chapter {
+            margin-bottom: 2.5rem;
+        }
+
+        .chapter-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0f172a;
+            background: #f8fafc;
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            border: 1px solid #eef2f6;
+            flex-wrap: wrap;
+        }
+        .chapter-title i {
+            color: #2563eb;
+        }
+        .chapter-title .badge {
+            font-size: 0.7rem;
+            background: #dbeafe;
+            color: #2563eb;
+            padding: 0.1rem 0.6rem;
+            border-radius: 40px;
+            font-weight: 400;
+            margin-left: 0.3rem;
+        }
+
+        .chapter-desc {
+            color: #475569;
+            font-size: 0.95rem;
+            margin: -0.5rem 0 1rem 0.5rem;
+            padding-left: 1rem;
+            border-left: 3px solid #dbeafe;
+        }
+
+        /* ===== 视频卡片 ===== */
+        .video-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .video-card {
+            background: #f8fafc;
+            border: 1px solid #eef2f6;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: 0.2s;
+        }
+        .video-card:hover {
+            border-color: #2563eb;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.06);
+        }
+
+        .video-card .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            background: #0f172a;
+        }
+        .video-card .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-card .info {
+            padding: 0.8rem 1rem 1rem 1rem;
+        }
+        .video-card .info .title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #0f172a;
+            margin-bottom: 0.2rem;
+        }
+        .video-card .info .desc {
+            font-size: 0.85rem;
+            color: #64748b;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .video-card .info .desc .more-btn {
+            color: #2563eb;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+        .video-card .info .desc .more-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* 视频链接 */
+        .video-card .info .video-link {
+            display: inline-block;
+            margin-top: 0.4rem;
+            font-size: 0.75rem;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .video-card .info .video-link i {
+            font-size: 0.7rem;
+            margin-left: 0.2rem;
+        }
+        .video-card .info .video-link:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 768px) {
+            .page-container { padding: 1.5rem; }
+            .page-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.8rem;
+            }
+            .page-header h1 { font-size: 1.4rem; }
+            .page-header .subtitle { display: block; margin-left: 0; }
+            .btn-home { justify-content: center; }
+            .video-grid { grid-template-columns: 1fr; }
+            .chapter-title { font-size: 1.2rem; }
+        }
+
+        @media (max-width: 480px) {
+            body { padding: 0.8rem; }
+            .page-container { padding: 1rem; }
+            .intro-box { padding: 0.8rem 1rem; }
+            .video-card .info { padding: 0.6rem 0.8rem 0.8rem; }
+            .video-card .info .title { font-size: 0.85rem; }
+        }
+
+        /* ===== 展开/收起 ===== */
+        .desc-expanded .desc {
+            -webkit-line-clamp: unset !important;
+            overflow: visible !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-container">
+
+    <!-- ===== 顶部 ===== -->
+    <div class="page-header">
+        <h1>
+            <i class="fas fa-graduation-cap"></i>
+            统计学习方法
+            <span class="subtitle">李航 · 第二版 · 多媒体笔记</span>
+        </h1>
+        <div class="header-actions">
+            <a href="../index.html" class="btn-home" target="_blank">
+                <i class="fas fa-arrow-left"></i> 返回主页
+            </a>
+        </div>
+    </div>
+
+    <!-- ===== 简介 ===== -->
+    <div class="intro-box">
+        <p><strong>📖 简介</strong></p>
+        <p>
+            郭德纲《统计学习方法》合集版来了！统计学习方法，经典的机器学习教材。尤其是第二版，写的非常详细到位。
+            但在阅读的过程中，总有一些小细节感觉没读懂。本视频带你一起阅读，争取搞懂其中的每一个细节，迅速走进机器学习的世界。
+            视频是本人的学习笔记，尽量详尽的介绍每一步推理过程，让大家对李航老师的见解有深入的了解。
+            唇形匹配效果采用 wav2lip 模型。
+        </p>
+        <p style="margin-top:0.3rem;">
+            🔗 合集链接：
+            <a href="https://www.bilibili.com/video/BV1ZP4y1V7pD?share_source=copy_web" target="_blank">
+                【合集】机器学习系列 郭德纲带你学习《统计学习方法》
+                <i class="fas fa-external-link-alt" style="font-size:0.7rem;margin-left:0.2rem;"></i>
+            </a>
+        </p>
+    </div>
+
+    <!-- ===== 内容由 JavaScript 动态渲染 ===== -->
+    <div id="app"></div>
+
+    <!-- ===== 底部 ===== -->
+    <footer style="margin-top:2rem; padding-top:1.2rem; border-top:1px solid #eef2f6; text-align:center; font-size:0.8rem; color:#94a3b8;">
+        © 2026 李昕课题组 · 统计学习方法多媒体笔记
+    </footer>
+
+</div>
+
+<script>
+// ============================================================
+// 数据：从 README.md 提取的完整结构
+// ============================================================
+const chapters = [
+    {
+        title: '第一章 统计学习及监督学习概论',
+        desc: '统计学习方法三要素、模型评估与选择、正则化与交叉验证等基础概念。',
+        videos: [
+            { title: '1概论', desc: '讲解统计学习的定义、特点、学习对象、目的以及统计学习的方法、用到的基本概念等。重点理解统计学习方法三要素以及统计学习方法的步骤。', page: 1 },
+            { title: '1.2统计学习分类', desc: '讲解统计学习的基本分类及定义、无监督学习和监督学习的主要区别以及学习中用到的重点概念。重点理解监督学习、无监督学习以及两者的区别、强化学习。', page: 2 },
+            { title: '1.2.2模型分类', desc: '讲解统计学习方法按模型、按算法、按技巧形成的分类，重点理解概率模型、贝叶斯学习。', page: 3 },
+            { title: '1.3统计学习方法三要素', desc: '统计学习方法=模型+策略+算法，讲解模型中的各类空间概念、策略中的损失函数及经验风险最小化、结构风险最小化，重点理解经验损失、结构风险最小化。', page: 4 },
+            { title: '1.4模型评估与模型选择', desc: '讲解训练误差、测试误差的概念与区别、准确率以及过拟合。重点理解过拟合概念以及训练误差与测试误差对模型选择的影响。', page: 5 },
+            { title: '1.5-1.7正则化与交叉验证', desc: '讲解正则化、范数、交叉验证方法、泛化误差、生成模型与判别模型，重点理解范数、S折交叉验证。', page: 6 },
+            { title: '1.8监督学习应用', desc: '监督学习主要应用于分类问题、标注问题和回归问题，重点理解分类问题中的精确率、召回率、调和均值。', page: 7 },
+        ]
+    },
+    {
+        title: '第二章 感知机',
+        desc: '感知机是一种非常经典的二分类的线性分类模型，输入为实例的特征向量，输出为实例的类别（取+1和-1）。感知机通过学习到的分离超平面将输入空间中的实例划分为两类，为求得该超平面导入了基于误分类的损失函数，利用梯度下降法对损失函数进行最优化。',
+        videos: [
+            { title: '2.1-2.2感知机模型和策略', desc: '简单介绍了感知机模型的概念定义以及感知机的学习策略的公式推导过程。', page: 8 },
+            { title: '例2.1详细解析', desc: '通过求解学习统计学习方法的例题2.1，详细讲解感知机模型的学习知识。', page: 9 },
+            { title: '表2.2详细构造1', desc: '通过求解学习统计学习方法的表2.1，详细讲解感知机模型的学习知识以及求解过程。', page: 10 },
+            { title: '表2.2详细构造2', desc: '通过求解学习统计学习方法的表2.1，详细讲解感知机模型的学习知识以及求解过程。', page: 11 },
+            { title: '2.3感知机算法', desc: '详细讲解了感知机算法的原始形式的公式推导，以及在求解过程中梯度下降法的应用。', page: 12 },
+            { title: '2.3.2算法收敛性', desc: '通过数学推导证明了感知机算法的收敛性，即感知机最后一定会学习出一个超平面。', page: 13 },
+            { title: '2.3.3感知机对偶形式', desc: '详细讲解了感知机原始形式的变形即对偶形式的推导。', page: 14 },
+        ]
+    },
+    {
+        title: '第三章 K近邻法',
+        desc: 'k近邻法（k-nearest neighbor，k-NN）是一种基本分类与回归方法。有三个基本要素——k值的选择、距离度量及分类决策规则。',
+        videos: [
+            { title: '3.1k近邻算法', desc: 'K近邻算法的主要思想：给定一个训练数据集，对新的输入实例，在训练数据集中找到与该实例最邻近的k个实例，这k个实例的多数属于某个类，就把该输入实例分为这个类。即"近朱者赤近墨者黑"。', page: 15 },
+            { title: '例3.1', desc: '例3.1', page: 16 },
+            { title: '3.2k近邻模型', desc: 'k近邻模型由三个基本要素——距离度量、k值的选择和分类决策规则决定，对应于对特征空间的划分。该视频主要介绍三种距离度量欧氏距离、Lp距离（Lpdistance）或Minkowski距离（Minkowski distance）。', page: 17 },
+            { title: '图3.2', desc: '图3.2', page: 18 },
+            { title: '3.2.3K值的选择', desc: '该视频包括K值选择和分类决策规则两部分。K值是一个超参数，一般选用交叉验证法进行验证并选取一个较小值。K值过大过小都会影响模型的构造，例如k值的减小容易发生过拟合，k值的增大会导致学习的近似误差也大。k近邻法中的分类决策规则往往是多数表决，即由输入实例的k个邻近的训练实例中的多数类决定输入实例的类。', page: 19 },
+            { title: '3.3KD树的构造', desc: 'kd树构造过程(平衡kd树)：类似于数据结构中平衡二叉树的构建。', page: 20 },
+            { title: '3.3.2搜索KD树', desc: '步骤：（1）在kd树中找出包含目标点x的叶结点... 关键字：距离，超球体，相交', page: 21 },
+        ]
+    },
+    {
+        title: '第四章 朴素贝叶斯法',
+        desc: '朴素贝叶斯法通过训练数据学习联合概率分布，然后求解得到后验概率分布。',
+        videos: [
+            { title: '朴素贝叶斯法', desc: '简单介绍朴素贝叶斯法，通过训练数据学习联合概率分布，然后求解得到后验概率分布。', page: 22 },
+            { title: '4.1模型', desc: '朴素贝叶斯法实际上学习到生成数据的机制，所以属于生成模型。"朴素"，即条件独立假设等于是说用于分类的特征在类确定的条件下都是条件独立的。这一假设使朴素贝叶斯法变得简单，但有时会牺牲一定的分类准确率。', page: 23 },
+            { title: '基本概念', desc: '简单讲解了条件概率、全概率公式以及贝叶斯公式等概念，为后续详细讲解朴素贝叶斯法提供背景知识。', page: 24 },
+            { title: '4.1.2后验概率最大化的含义', desc: '通过推导，后验概率最大化可以等价于经验风险最小化，这是朴素贝叶斯法的一个重要原理。', page: 25 },
+            { title: '4.2.1极大似然估计', desc: '介绍了极大似然估计法，用于学习概率模型。', page: 26 },
+            { title: '4.2贝叶斯估计', desc: '介绍了贝叶斯估计法，可以解决极大似然估计得到概率值为0情况下的问题。', page: 27 },
+        ]
+    },
+    {
+        title: '第五章 决策树',
+        desc: '决策树是一种基本的分类与回归方法。',
+        videos: [
+            { title: '5.1决策树', desc: '简单介绍了决策树的概念，通过简单的例子讲解了决策树模型的本质以及其构造过程。', page: 28 },
+            { title: '5.1.4决策树的学习', desc: '详细讲解了决策树学习的概念和决策树学习的理论过程。', page: 29 },
+            { title: '5.2特征选择', desc: '通过一组数据简单介绍了特征选择的概念，并且详细讲解了特征选择中所使用的信息增益和熵的概念及数学公式推导。', page: 30 },
+            { title: '5.2.2 例2', desc: '通过例5.2详细的讲解了特征选择的具体计算过程。', page: 31 },
+            { title: '5.3.1 id3算法', desc: '结合数据详细介绍了ID3算法构造决策树的过程。', page: 32 },
+            { title: '5.3.1 id3算法举例', desc: '通过ID3算法详细的讲解了习题5.2中二车回归树的构造过程。', page: 33 },
+            { title: '5.3.2 c4.5的生成算法', desc: '简单介绍了c4.5算法与ID3算法的异同。', page: 34 },
+            { title: '5.4 决策树的剪枝', desc: '详细介绍了决策树剪枝的几种不同策略以及决策树剪枝的必要性，并对剪枝的数学公式进行了推导理解。', page: 35 },
+            { title: '5.5.1 CART分类树的生成', desc: '详细介绍了CART算法的概念和步骤，着重介绍了CART回归树的构造过程及公式推导。', page: 36 },
+            { title: '5.5.1 CART回归树的生成', desc: '详细介绍了CART分类树的构造过程及公式推导，介绍了基尼指数的概念及计算。', page: 37 },
+            { title: '5.5.2 CART剪枝', desc: '详细推导了CART算法的剪枝过程和公式推导及理解。', page: 38 },
+        ]
+    },
+    {
+        title: '第六章 逻辑斯蒂回归与最大熵模型',
+        desc: '逻辑斯蒂回归是经典的分类方法，最大熵模型是广泛应用于自然语言处理的判别模型。',
+        videos: [
+            { title: '6.1逻辑斯蒂回归', desc: '简单介绍了逻辑斯蒂回归模型，逻辑斯蒂分布是s型函数。', page: 39 },
+            { title: '6.1.2二项逻辑斯蒂回归', desc: '简单介绍了逻辑斯蒂回归模型，逻辑斯蒂分布是s型函数。', page: 40 },
+            { title: '6.1.3模型参数估计', desc: '简单介绍了逻辑斯蒂回归模型的参数估计，以及多项逻辑斯蒂回归模型。', page: 41 },
+            { title: '6.2最大熵模型', desc: '简单介绍了最大熵原理，以及基于此原理的最大熵模型，并给出了最大熵模型的几何解释。', page: 42 },
+            { title: '6.2.2最大熵模型定义', desc: '通过引入特征函数及模型与经验分布的期望值，并给出了最大熵模型的定义。', page: 43 },
+            { title: '6.2.3最大熵模型的学习', desc: '介绍了最大熵模型的学习，将最大熵模型的学习问题从求解带约束的最优化问题转化为无约束的最优化问题，进而转化为易于求解的对偶问题。', page: 44 },
+            { title: '6.2.3例6.2', desc: '通过求解学习统计学习方法的例题6.2，详细讲解最大熵模型的学习知识。', page: 45 },
+            { title: '6.2.4极大似然估计', desc: '论证了对偶函数极大化等价于最大熵模型的极大似然估计。', page: 46 },
+            { title: '6.3.1改进的迭代尺度法', desc: '介绍了改进的迭代尺度法IIS，用于最大熵模型的模型学习。', page: 47 },
+            { title: '6.3.2拟牛顿法', desc: '讲解了拟牛顿法在最大熵模型学习中的应用。', page: 48 },
+        ]
+    },
+    {
+        title: '第七章 支持向量机',
+        desc: '支持向量机（SVM）是类按照监督学习的方式对输入数据进行二分类的分类器，其通过间隔最大化的学习策略得到对学习样本求解的最大边距超平面，由此对输入实例进行分类。SVM可以通过核方法进行非线性分类，是一种常见的核学习方法。',
+        videos: [
+            { title: '7.1支持向量机', desc: '简单讲解了支持向量机的概念定义，以及支持向量机的分类，介绍了线性可分支持向量机。', page: 49 },
+            { title: '7.1.2函数间隔和几何间隔', desc: '详细讲解了函数间隔和几何间隔的概念定义，及其两者之间的关联区别。', page: 50 },
+            { title: '7.1.2点到直线的距离(点积形式)(2)', desc: '通过向量的点积形式，推导出几何间隔的定义。', page: 51 },
+            { title: '7.1.3间隔最大化', desc: '详细讲解了支持向量机学习策略的基本思想即间隔最大化，通过间隔最大化找到最优超平面。', page: 52 },
+            { title: '7.1.3最大间隔分离超平面的存在唯一性(2)', desc: '继续讲解支持向量机学习策略的基本思想即间隔最大化，通过间隔最大化找到最优超平面。', page: 53 },
+            { title: '7.1.3支持向量和间隔边界(3)', desc: '通过数图结合和例题的讲解，详细讲解了什么是支持向量和间隔边界。', page: 54 },
+            { title: '7.1.4学习的对偶算法', desc: '详细讲解了拉格朗日函数及其对偶性，引出支持向量机的对偶算法。', page: 55 },
+            { title: '7.1.4学习的对偶算法(2)', desc: '继续讲解拉格朗日函数及其对偶性，以及支持向量机的对偶算法。', page: 56 },
+            { title: '7.1.4学习的对偶算法(3)', desc: '继续讲解拉格朗日函数及其对偶性，以及支持向量机的对偶算法。', page: 57 },
+            { title: '7.2.1线性支持向量机', desc: '详细讲解了线性支持向量机的概念定义，以及在软间隔最大化的学习策略下的公式推导。', page: 58 },
+            { title: '7.2.3支持向量', desc: '通过图形结合的形式详细讲解了支持向量的概念以及实际意义。', page: 59 },
+            { title: '7.2.4合页损失函数', desc: '简单讲解了软间隔最大化的另外一种表示形式，即最小化合页损失函数。', page: 60 },
+            { title: '7.3.1核技巧(1)', desc: '简单讲解了核技巧在非线性分类问题中的应用，即通过核技巧的使用可以解决非线性分类问题。', page: 61 },
+            { title: '7.3.1核函数的定义(2)', desc: '简单讲解了核函数的定义及其作用。', page: 62 },
+            { title: '7.3.1核技巧在支持向量机中的应用(3)', desc: '简单讲解了核技巧如何应用于支持向量机，以便求解问题。', page: 63 },
+            { title: '7.3.2正定核', desc: '详细讲解了正定核的概念定义以及公式推导。', page: 64 },
+            { title: '7.3.2正定核的充要条件(2)', desc: '通过数学公式，推导出正定核的充要条件。', page: 65 },
+            { title: '7.3.3常用核函数', desc: '简单介绍了多项式核函数和高斯核函数。', page: 66 },
+            { title: '7.3.3常用核函数(2)', desc: '详细讲解了字符串核函数的概念定义以及公式推导，并讲解了相关的例题。', page: 67 },
+            { title: '7.3.4非线性支持向量机', desc: '对之前的内容做了回顾，简单介绍了非线性支持向量机学习算法的具体过程。', page: 68 },
+            { title: '7.4 SMO算法', desc: '简单讲解了支持向量机的求解实现问题，揭示了传统梯度下降法的局限性，引出来序列最小最优化方法。', page: 69 },
+            { title: '7.4.1两个变量的二次规划求解方法', desc: '详细讲解了两个变量的SMO求解方法。', page: 70 },
+            { title: '7.4.1两个变量的二次规划求解方法(2)', desc: '继续通过数学公式的推导来探讨两个变量的二次规划求解方法。', page: 71 },
+            { title: '7.4.2变量的选择方法', desc: '本节总结了下SMO算法中两个变量的选择原则，回顾应用SMO求解支持向量机的流程。', page: 72 },
+        ]
+    },
+    {
+        title: '第八章 提升方法',
+        desc: '提升方法思想："三个臭皮匠赛过诸葛亮"，即在分类问题中，提升算法从弱学习算法出发，反复学习，得到一系列弱分类器，然后组合这些弱分类器，构成一个强分类器。',
+        videos: [
+            { title: '8.1.1提升方法adaboost算法', desc: '提升方法思想："三个臭皮匠赛过诸葛亮"... 关键词：弱分类器，强分类器', page: 73 },
+            { title: '8.1.2adaoost算法', desc: '基本步骤：（1）假设训练数据集具有均匀的权值分布... （3）线性组合f(x)实现M个基本分类器的加权表决。', page: 74 },
+            { title: '8.1.3adaboost例子', desc: 'adaboost例子', page: 75 },
+            { title: '8.2adaboost算法的训练误差分析', desc: 'AdaBoost最基本的性质是它能在学习过程中不断减少训练误差... 该视频分别对Adaboost的训练误差界、二类分类问题Adaboost的训练误差界、训练误差在指定条件下呈指数速率下降进行分析验证。', page: 76 },
+            { title: '8.3.1adaboost算法的解释', desc: 'Adboost可认为是加法模型、损失函数为指数函数、学习算法为前向分步算法时的二类分类学习方法。该视频简单介绍了前向分步算法的学习步骤。', page: 77 },
+            { title: '8.3.2前向分步算法与adaboost', desc: 'AdaBoost算法是前向分歩加法算法的特例，该视频主要利用后推方法证明前向分步算法的损失函数是指数损失函数。', page: 78 },
+            { title: '8.4.1-2提升树', desc: '提升树是以分类树或回归树为基本分类器的提升方法。该视频针对不同问题的提升树学习方法，介绍了不同的损失函数。', page: 79 },
+            { title: '8.4.3梯度提升树', desc: '梯度提升树优点：利用梯度下降法优化损失函数... 算法第1步初始化，估计使损失函数极小化的常数值...', page: 80 },
+        ]
+    },
+    {
+        title: '第九章 EM算法',
+        desc: 'EM算法（期望极大算法）是一种迭代算法，用于含有隐变量的概率模型参数的极大似然估计。',
+        videos: [
+            { title: '9.1.1EM算法的引入', desc: '简单介绍了EM算法的概念，通过简单的例子介绍了EM算法的引入原因，并讲解了三硬币模型应用EM算法的求解过程。', page: 81 },
+            { title: '9.1.2EM算法的导出', desc: '详细讲解了EM算法的公式推导过程。', page: 82 },
+            { title: '9.2EM算法的收敛性', desc: '详细推到了EM算法代替极大似然估计求解的收敛性。', page: 83 },
+            { title: '9.3EM算法在高斯混合模型学习中的应用', desc: '详细介绍了高斯混合模型相关问题使用EM算法的求解过程并对公式进行了详细推导。', page: 84 },
+            { title: '9.4EM算法的推广', desc: '简单总结了EM算法的概念，并引出了EM算法的推广—F函数，对F函数的概念、过程及推导作了详细的讲解。', page: 85 },
+        ]
+    }
+];
+
+// ============================================================
+// 渲染
+// ============================================================
+const BVID = 'BV1ZP4y1V7pD';
+
+function render() {
+    const app = document.getElementById('app');
+    let html = '';
+
+    chapters.forEach(ch => {
+        html += `
+            <div class="chapter">
+                <div class="chapter-title">
+                    <i class="fas fa-book"></i> ${ch.title}
+                    <span class="badge">${ch.videos.length} 节</span>
+                </div>
+                ${ch.desc ? `<div class="chapter-desc">${ch.desc}</div>` : ''}
+                <div class="video-grid">
+        `;
+
+        ch.videos.forEach(v => {
+            const iframeSrc = `//player.bilibili.com/player.html?aid=891583598&bvid=${BVID}&cid=436905390&page=${v.page}`;
+            // B站链接（带p参数）
+            const bilibiliUrl = `https://www.bilibili.com/video/${BVID}?p=${v.page}`;
+            const descText = v.desc.replace(/\n/g, ' ').replace(/"/g, '&quot;');
+            const needExpand = v.desc.length > 80;
+
+            html += `
+                <div class="video-card">
+                    <div class="info">
+                        <div class="title">${v.title}</div>
+                        <div class="desc" ${needExpand ? 'data-expandable="true"' : ''}>
+                            ${descText}
+                            ${needExpand ? `<span class="more-btn" onclick="toggleDesc(this)"> 展开</span>` : ''}
+                        </div>
+                        <a href="${bilibiliUrl}" target="_blank" class="video-link">
+                            <i class="fab fa-bilibili"></i> 在B站观看 <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            `;
+        });
+
+        html += `
+                </div>
+            </div>
+        `;
+    });
+
+    app.innerHTML = html;
+}
+
+// ===== 展开/收起功能 =====
+function toggleDesc(el) {
+    const card = el.closest('.video-card');
+    const desc = card.querySelector('.desc');
+    if (desc.classList.contains('desc-expanded')) {
+        desc.classList.remove('desc-expanded');
+        el.textContent = ' 展开';
+    } else {
+        desc.classList.add('desc-expanded');
+        el.textContent = ' 收起';
+    }
+}
+
+// ===== 页面加载 =====
+document.addEventListener('DOMContentLoaded', render);
+</script>
+
+</body>
+</html>

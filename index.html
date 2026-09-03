@@ -1,72 +1,590 @@
----
-layout: default
-title: Li Xin's Homepage
----
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>李昕 · 副教授 · 人工智能系</title>
+    <!-- 使用 Font Awesome 图标库 (免费) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+		@keyframes fadeInUp {
+			from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+			to { opacity: 1; transform: translateX(-50%) translateY(0); }
+		}
+        /* ===== 全局重置 & 字体 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <!-- About Me Section -->
-  <section id="about">
-　　<div class="intro-section">
-    <div class="padding">
-	 <div class="one-third sep half-tiny-margin">
-	  <h1><span>ABOUT ME</span></h1>
-	 </div>
-	 <div class="two-third">
-	 </div>
-	</div>   
-   </div>
-   
-   <div class="half-margin padding">
-    <div class="two-third">
-     <img class="left" src="images/lixin.jpg" alt="about" />
-     <h2>Hello, I am <span>李昕</span></h2>
-     <p><a href="http://computer.upc.edu.cn">中国石油大学（华东）计算机与通信工程学院</a>讲师。博士毕业于 <a href="http://www.zju.edu.cn">浙江大学</a> <a href="http://www.cad.zju.edu.cn/english.html">CAD&CG 国家重点实验室</a>，在<a href="http://www.upc.edu.cn">中国石油大学（华东）</a>取得硕士和学士学位。</p> 
-      <p>我的研究方向是科学计算可视化，下一阶段的研究目标是时序体数据的运动增强。非常希望能和感兴趣的同行共同合作。</p> 
-	 </br></br></br></br><br><br>
-	<h2>Latest News</h2>
-     <ul>
-　　　　{% for post in site.posts %}
-　　　　　　<li>{{ post.date | date_to_string }} <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
-　　　　{% endfor %}
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            padding: 2rem 1.5rem;
+        }
 
-　　</ul>
-    </div>
-	
-    <div class="one-third">
-	 <h2>Important Dates</h2>
-	 <p>
-	 May 30, 2013 </br> 
-	 <a href="http://www.pg2013.org/">Pacific Graphics 2013</a></br>
-	 
-	 </br>
-	 </br>
-	 </br>
-	 </p>
-	 
-	 <h2>Links</h2>
-	 <p>
-    <a href="http://www.ranovae.com/">镭星科技</a> </p>
-	 <p>
-	 <a href="http://www.cad.zju.edu.cn/home/vagwiki/index.php/Main_Page">VAG</a> </p>
-	 <p>
-	 <a href="http://www.vizinsight.com/">vizinsight</a> </p>
-	 <p>
-	 <a href="http://www.vizworld.com/">vizworld</a></p>
-	 <p>
-	 <a href="http://http://www.civn.cn/">civn中文信息可视化社区</a>
-	 </p>
-	 <p>
-		<a href="http://program.upc.edu.cn/">教学平台</a>
-	 </p>
-	 <p>
-		<a href="http://acm.upc.edu.cn/">中国石油大学（华东）acm</a>
-	 </p>	 
-	 <p>
-		<a href="d3/index.html">D3 Game</a>
-	 </p>
-    </div>
-   </div>	
-   
-   <div class="next-section margin"><a href="publications.html" class="scrollTo">
-    <img src="images/down.png" title="Scroll to next section" alt="scroll" />
-   </a></div>
-</section>
+        .container {
+            max-width: 1280px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2.5rem;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            padding: 2.5rem;
+        }
+
+        /* ===== 左侧栏 (固定个人信息) ===== */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            border-right: 1px solid #e9edf2;
+            padding-right: 2rem;
+        }
+
+        .avatar {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #d9e2ef;
+            margin-bottom: 1.2rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .sidebar h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            color: #0f172a;
+        }
+
+        .sidebar .title {
+            font-size: 1.1rem;
+            color: #2563eb;
+            font-weight: 500;
+            margin-top: -0.2rem;
+        }
+
+        .sidebar .tagline {
+            font-size: 0.95rem;
+            color: #475569;
+            margin: 0.8rem 0 1.5rem 0;
+            background: #f1f5f9;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            display: inline-block;
+        }
+
+        /* 左侧数据统计 (4个小块) */
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+            width: 100%;
+            margin: 0.8rem 0 1.8rem 0;
+        }
+
+        .stat-item {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 0.6rem 0.2rem;
+            border: 1px solid #eef2f6;
+        }
+
+        .stat-item .number {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .stat-item .label {
+            font-size: 0.7rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* 左侧按钮组 */
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            width: 100%;
+            margin: 0.5rem 0 1.8rem 0;
+        }
+
+        .btn-primary, .btn-outline {
+            display: inline-block;
+            padding: 0.7rem 0;
+            border-radius: 40px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: #0f172a;
+            color: white;
+            border: 1px solid #0f172a;
+        }
+        .btn-primary:hover { background: #1e293b; }
+
+        .btn-outline {
+            background: transparent;
+            color: #0f172a;
+            border: 1px solid #cbd5e1;
+        }
+        .btn-outline:hover { background: #f1f5f9; }
+
+        /* 左侧社交图标 */
+        .social-links {
+            display: flex;
+            gap: 1.2rem;
+            font-size: 1.6rem;
+            color: #64748b;
+            margin-top: 0.2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .social-links a {
+            color: #475569;
+            transition: 0.2s;
+        }
+        .social-links a:hover { color: #0f172a; }
+
+        /* ===== 右侧主内容 ===== */
+        .main {
+            display: flex;
+            flex-direction: column;
+            gap: 2.2rem;
+        }
+
+        /* 通用标题样式 */
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            color: #0f172a;
+            border-bottom: 2px solid #eef2f6;
+            padding-bottom: 0.4rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .section-title i {
+            color: #2563eb;
+            font-size: 1.3rem;
+            width: 1.8rem;
+        }
+
+        /* 新闻动态 (列表) */
+        .news-list {
+            list-style: none;
+        }
+        .news-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed #e9edf2;
+            font-size: 0.98rem;
+            display: flex;
+            gap: 0.8rem;
+        }
+        .news-list .date {
+            color: #2563eb;
+            font-weight: 500;
+            white-space: nowrap;
+            min-width: 80px;
+        }
+
+        /* 新闻头部：标题 + 更多按钮 */
+        .news-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #eef2f6;
+            padding-bottom: 0.4rem;
+            margin-bottom: 1rem;
+        }
+        .news-header .section-title {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .btn-more {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .btn-more:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        /* 研究成果卡片 (网格) */
+        .research-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+        }
+
+        .research-card {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 1rem 1.2rem 1.2rem 1.2rem;
+            border: 1px solid #eef2f6;
+            transition: 0.2s;
+        }
+        .research-card:hover {
+            border-color: #b9d0f0;
+            background: #f1f6fe;
+        }
+        .research-card .thumb {
+            width: 100%;
+            height: 100px;
+            background: #d9e2ef;
+            border-radius: 8px;
+            margin-bottom: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #475569;
+            font-size: 0.8rem;
+        }
+        .research-card h4 {
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+            color: #0f172a;
+        }
+        .research-card p {
+            font-size: 0.85rem;
+            color: #475569;
+            margin-bottom: 0.6rem;
+        }
+        .research-card .links a {
+            font-size: 0.75rem;
+            margin-right: 0.8rem;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .research-card .links a:hover { text-decoration: underline; }
+
+        /* 教学与招生 */
+        .teaching-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+        }
+        .teaching-item {
+            background: #f8fafc;
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            border-left: 4px solid #2563eb;
+        }
+        .teaching-item strong {
+            display: block;
+            font-size: 1rem;
+        }
+        .teaching-item span {
+            font-size: 0.9rem;
+            color: #475569;
+        }
+
+        .callout {
+            background: #eef6ff;
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            border: 1px solid #c7ddfa;
+            font-weight: 500;
+        }
+        .callout i {
+            color: #2563eb;
+            margin-right: 0.5rem;
+        }
+
+        /* 底部联系 */
+        .footer-contact {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            background: #f1f5f9;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+        .footer-contact i {
+            width: 1.6rem;
+            color: #2563eb;
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 850px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 1.8rem;
+                gap: 2rem;
+            }
+            .sidebar {
+                border-right: none;
+                padding-right: 0;
+                border-bottom: 1px solid #e9edf2;
+                padding-bottom: 1.8rem;
+            }
+            .stats {
+                max-width: 300px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .research-grid, .teaching-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body { padding: 0.8rem; }
+            .container { padding: 1.2rem; }
+            .avatar { width: 120px; height: 120px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- ========== 左侧栏 ========== -->
+    <aside class="sidebar">
+        <!-- 头像 -->
+		<div class="avatar" style="background-image: url('https://www.upcxai.top/assets/img/%E5%AF%BC%E5%B8%88%E6%9D%8E%E6%98%95.jpeg'); background-size: cover; background-position: center 10%;"></div>
+
+        <h1>李昕</h1>
+        <div class="title">副教授 · 博士生导师</div>
+		<div class="title">浙江大学CAD&CG国重博士毕业</div>
+		<div class="title">肯特州立大学访学</div>
+        <div class="tagline"><i class="fas fa-microchip" style="margin-right:6px;"></i>遥感图像处理 · 海洋气象要素预测 · 计算机视觉</div>
+
+        <!-- 核心数据 -->
+        <div class="stats">
+            <div class="stat-item"><div class="number">20+</div><div class="label">论文</div></div>
+            <div class="stat-item"><div class="number">4</div><div class="label">主编教材</div></div>
+            <div class="stat-item"><div class="number">1</div><div class="label">专著</div></div>
+            <div class="stat-item"><div class="number">5</div><div class="label">授权专利</div></div>
+        </div>
+
+        <!-- 按钮 -->
+        <div class="btn-group">
+            <a href="paper.html" class="btn-primary"><i class="fas fa-graduation-cap" style="margin-right:8px;"></i>研究 & 论文</a>
+			<a href="members.html" class="btn-primary"><i class="fas fa-user" style="margin-right:8px;"></i>学生培养</a>
+			<a href="resource.html" class="btn-primary"><i class="fas fa-book" style="margin-right:8px;"></i>资源统计</a>
+            <a href="#" class="btn-outline"><i class="fas fa-envelope" style="margin-right:8px;"></i>lix <strong>[at]</strong> upc.edu.cn</a>
+        </div>
+
+        <!-- 社交链接 -->
+        <div class="social-links">
+            <a href="#" title="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+            <a href="https://github.com/cinger007" title="GitHub"><i class="fab fa-github"></i></a>
+            <a href="#" title="ORCID：0009-0003-9908-8910"  onclick="copyText('0009-0003-9908-8910', 'ORCID')"><i class="fab fa-orcid"></i></a>
+            <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" title="微信：cinger007"  onclick="copyText('cinger007', '微信')"><i class="fab fa-weixin"></i></a>
+        </div>
+        <div style="margin-top:1.2rem; font-size:0.8rem; color:#94a3b8;">
+            <i class="fas fa-map-pin"></i> 中国石油大学（华东）青岛软件学院、计算机科学与技术学院
+        </div>
+    </aside>
+
+    <!-- ========== 右侧主内容 ========== -->
+    <main class="main">
+
+        <!-- 1. 动态新闻（仅显示前5条，加更多按钮） -->
+        <section>
+            <div class="news-header">
+                <div class="section-title"><i class="fas fa-rss"></i> 最新动态</div>
+                <a href="news.html" target="_blank" class="btn-more">
+                    <i class="fas fa-plus-circle"></i> 更多
+                </a>
+            </div>
+            <ul class="news-list" id="newsList">
+                <!-- 由 JavaScript 动态渲染，只显示前5条 -->
+            </ul>
+        </section>
+        <!-- 2. 教学与招生 -->
+        <section>
+			<div class="callout">
+                <i class="fas fa-lightbulb"></i> <strong>导师申请方式：</strong> 请将简历 + 成绩单发送至 <strong>lix [at] upc.edu.cn</strong>，标题注明“博士/硕士申请-姓名”。本人非常看重学生的信誉问题，<strong>非诚勿扰，海投勿扰</strong>。
+            </div><br>
+            <div class="section-title"><i class="fas fa-chalkboard-teacher"></i> 科研与社会服务 </div>
+            <div class="teaching-grid">
+                <div class="teaching-item">
+                    <strong><i class="fas fa-book-open" style="margin-right:6px; color:#2563eb;"></i> 代表项目&奖励</strong>
+                    <span> 山东省重点研发项目1项 </span><br>
+					<span> 山东省自然科学基金面上项目3项 </span><br>
+					<span> 山东省教学创新大赛二等奖 </span><br>
+					<span> 山东省教学成果奖2项 </span><br>
+                
+                </div>
+                <div class="teaching-item">
+                    <strong><i class="fas fa-users" style="margin-right:6px; color:#2563eb;"></i> 社会兼职</strong>
+					<span style="display:block; margin-top:4px;">✅ IEEE Senior Member</span>
+					<span style="display:block; margin-top:4px;">✅ 中国计算机学会杰出会员</span>
+                    <span>✅ 中国计算机学会YOCSEF青岛 · 21-22年主席</span>
+                    <span style="display:block; margin-top:4px;">✅ 中国计算机学会青岛代表处 · 26-28年副主任（助理）</span>
+                </div>
+            </div>
+            
+        </section>
+
+        <!-- 3. 代表性研究成果 -->
+        <section>
+            <div class="section-title"><i class="fas fa-flask"></i> 代表性成果</div>
+            <div class="research-grid">
+                <!-- 卡片 1 -->
+                <div class="research-card">
+                    <div class="thumb"><img src="https://www.upcxai.top/assets/img/%E5%85%83%E5%8D%9A%E8%AE%BA%E6%96%87%E4%B8%BB%E5%9B%BE.png" alt="海洋内波识别" style="width:100%; height:100%; object-fit:cover; border-radius:2px;" /></div>
+                    <h4>域适应语义分割 · <strong>TGRS · SCI一区</strong></h4>
+                    <p>Unsupervised Domain Adaptation Semantic Segmentation of Remote Sensing Images With Mask Enhancement and Balanced Sampling</p>
+					<p></p>
+					
+					<div class="links">
+					<a href="https://ieeexplore.ieee.org/document/10841935" target="blank" class="fas fa-file-pdf"> PDF </a>
+					<a href="@ARTICLE{10841935,  author={Li, Xin and Qiu, Yuanbo and Liao, Jixiu and Meng, Fan and Ren, Peng},  journal={IEEE Transactions on Geoscience and Remote Sensing},   title={Unsupervised Domain Adaptation Semantic Segmentation of Remote Sensing Images With Mask Enhancement and Balanced Sampling},   year={2025},  volume={},  number={},  pages={1-1},  keywords={Semantic segmentation;Training;Data models;Semantics;Adaptation models;Feature extraction;Transformers;Remote sensing;Generators;Visualization;remote sensing images (RSIs);semantic segmentation;unsupervised domain adaptation (UDA);data augumention},  doi={10.1109/TGRS.2025.3529028}}" class="fab fa-github"> BibTeX </a> 					
+					<a href="#"  onclick="copyText('Li X., Qiu Y., Liao J., Meng F., Ren P. Unsupervised Domain Adaptation Semantic Segmentation of Remote Sensing Images With Mask Enhancement and Balanced Sampling [J]. IEEE Transactions on Geoscience and Remote Sensing, DOI: 10.1109/TGRS.2025.3529028.', 'GB/T')" class="fas fa-quote-right"> GB/T </a>
+					</div>
+                </div>
+                <!-- 卡片 2 -->
+                <div class="research-card">
+                    <div class="thumb"><img src="https://www.upcxai.top/assets/img/AttIW-Net%E4%B8%BB%E5%9B%BE.png" alt="海洋内波识别" style="width:100%; height:100%; object-fit:cover; border-radius:2px;" /></div>
+                    <h4>在SAR图片中识别海洋内波 · TGRS · SCI一区</h4>
+                    <p>AttIW-Net: Attention-Driven Extraction of Ocean Internal Waves From SAR Images With Frequency Enhancement and Morphological Adaptation</p>
+										
+					<div class="links">
+					<a href="https://ieeexplore.ieee.org/document/11506603" target="blank" class="fas fa-file-pdf"> PDF </a> 
+					<a href="@article{li2026attiwnet,  title={AttIW-Net: Attention-Driven Extraction of Ocean Internal Waves From SAR Images With Frequency Enhancement and Morphological Adaptation},  author={Li, Xin and Zhan, Xiangjie and Yang, Shumin and Meng, Fan and Wang, Jianxin and Zhang, Xudong and Li, Xiaofeng},  journal={IEEE Transactions on Geoscience and Remote Sensing},  volume={64},  pages={4207313},  year={2026},  doi={10.1109/TGRS.2026.3690666}}" class="fab fa-github"> BibTeX </a> 
+					<a href="#"  onclick="copyText('Li X, Zhan X, Yang S, et al. AttIW-Net: Attention-Driven Extraction of Ocean Internal Waves From SAR Images With Frequency Enhancement and Morphological Adaptation[J]. IEEE Transactions on Geoscience and Remote Sensing, 2026, 64: 4207313. DOI: 10.1109/TGRS.2026.3690666.', 'GB/T')" class="fas fa-quote-right"> GB/T </a>
+                    </div>
+                </div>
+                <!-- 卡片 3 -->
+                <div class="research-card">
+                    <div class="thumb"><img src="https://www.upcxai.top/assets/img/xiaofei.png" alt="遥感影像去云" style="width:100%; height:100%; object-fit:cover; border-radius:2px;" /></div>
+                    <h4>遥感影像去云 · TGRS · SCI一区</h4>
+                    <p>HF-T2CR:High-Fidelity Thin and Thick Cloud Removal in Optical Satellite Images through SAR Fusion</p>					
+					
+					<div class="links"><a data-v-0aed3730="" href="https://ieeexplore.ieee.org/document/10560042" target="blank" class="fas fa-file-pdf"> PDF</a> <a href="@ARTICLE{10560042,  author={Li, Xin and Zhao, Xiaofei and Wang, Fusheng and Ren, Peng},  journal={IEEE Transactions on Geoscience and Remote Sensing},   title={HF-T2CR:High-Fidelity Thin and Thick Cloud Removal in Optical Satellite Images through SAR Fusion},   year={2024},  volume={},  number={},  pages={1-1},  keywords={Clouds;Cloud computing;Optical imaging;Optical sensors;Synthetic aperture radar;Adaptive optics;Radar polarimetry;Cloud removal;optical image;SAR;contextual feature transfer},  doi={10.1109/TGRS.2024.3416128}}" class="fab fa-github"> BibTeX</a> 
+					<a data-v-0aed3730="" href="#"  onclick="copyText('Li X., Zhao X., Wang F., Ren P. HF-T2CR: High-Fidelity Thin and Thick Cloud Removal in Optical Satellite Images through SAR Fusion[J]. IEEE Transactions on Geoscience and Remote Sensing, 2024, (1): 1-1.', 'GB/T')" class="fas fa-quote-right"> GB/T</a></div>
+                </div>
+                <!-- 卡片 4 -->
+                <div class="research-card">
+                    <div class="thumb"><img src="https://www.upcxai.top/assets/img/kuan.png" alt="海洋内波识别" style="width:100%; height:100%; object-fit:cover; border-radius:2px;" /></div>
+                    <h4>图像盲修复 · 清华大学学报 · SCI一区</h4>
+                    <p>SemID: Blind Image Inpainting with Semantic Inconsistency Detection</p>
+					<div data-v-0aed3730="" class="links"><a href=" https://ieeexplore.ieee.org/document/10431730" target="blank" class="fas fa-file-pdf"> PDF</a> <a data-v-0aed3730="" href="@article{li2024semid,  title={SemID: Blind Image Inpainting with Semantic Inconsistency Detection},  author={Li, Xin and Wang, Zhikuan and Chen, Chenglizhao and Tao, Chunfeng and Qiu, Yuanbo and Liu, Junde and Sun, Baile},  journal={Tsinghua Science and Technology},  volume={29},  number={4},  pages={1053--1068},  year={2024},  publisher={TUP}}" class="fab fa-github"> BibTeX</a> <a data-v-0aed3730="" href="#"  onclick="copyText('Li X, Wang Z, Chen C, et al. SemID: Blind Image Inpainting with Semantic Inconsistency Detection[J]. Tsinghua Science and Technology, 2024, 29(4): 1053-1068.', 'GB/T')" class="fas fa-quote-right"> GB/T</a>
+					</div>						
+                </div>
+            </div>
+        </section>
+
+
+        <!-- 4. 底部联系 -->
+        <footer>
+            <div class="footer-contact">
+                <span><i class="fas fa-envelope"></i> lix [at] upc.edu.cn</span>
+                <span><i class="fas fa-map-marker-alt"></i> 青岛市黄岛区长江西路66号 · 中国石油大学（华东）</span>
+            </div>
+            <div style="text-align:right; margin-top:0.8rem; font-size:0.75rem; color:#94a3b8;">
+                © 2026 李昕 · 最后更新 2026.08.31
+            </div>
+        </footer>
+
+    </main>
+</div>
+<!-- ===== 引入独立的数据文件 ===== -->
+<script src="news.js"></script>
+
+<script>
+// ===== 渲染新闻列表（最多5条） =====
+function renderNews(maxCount) {
+    const list = document.getElementById('newsList');
+    if (!list) return;
+    const slice = maxCount ? newsData.slice(0, maxCount) : newsData;
+    list.innerHTML = slice.map(item => `
+        <li>
+            <span class="date">${item.date}</span>
+            <span>${item.text} <i class="fas ${item.icon}" style="color:#2563eb;"></i></span>
+        </li>
+    `).join('');
+}
+
+// 页面加载时渲染前5条
+document.addEventListener('DOMContentLoaded', function() {
+    renderNews(5);
+});
+
+// ===== 复制工具函数 =====
+function copyText(text, label = '内容') {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+            showToast('✅ ' + label + '已复制到剪贴板');
+        }).catch(() => {
+            fallbackCopy(text, label);
+        });
+    } else {
+        fallbackCopy(text, label);
+    }
+}
+
+function fallbackCopy(text, label) {
+    const input = document.createElement('input');
+    input.value = text;
+    input.style.position = 'fixed';
+    input.style.opacity = '0';
+    document.body.appendChild(input);
+    input.select();
+    try {
+        document.execCommand('copy');
+        showToast('✅ ' + label + '已复制到剪贴板');
+    } catch (e) {
+        alert('复制失败，请手动复制：' + text);
+    }
+    document.body.removeChild(input);
+}
+
+function showToast(msg) {
+    const toast = document.createElement('div');
+    toast.textContent = msg;
+    toast.style.cssText = `
+        position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+        background: #0f172a; color: white; padding: 12px 24px;
+        border-radius: 40px; font-size: 0.95rem; z-index: 9999;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        animation: fadeInUp 0.3s ease;
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.3s';
+        setTimeout(() => toast.remove(), 400);
+    }, 2000);
+}
+</script>
+</body>
+</html>

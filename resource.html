@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>资源汇总 · 李昕课题组</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background-color: #f1f5f9;
+            color: #1e293b;
+            line-height: 1.7;
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .page-container {
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            padding: 2.5rem 3rem;
+        }
+
+        /* ===== 顶部导航 ===== */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #eef2f6;
+            padding-bottom: 1.2rem;
+        }
+
+        .page-header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .page-header h1 i {
+            color: #2563eb;
+        }
+
+        .btn-home {
+            background: #0f172a;
+            color: white;
+            border: none;
+            padding: 0.5rem 1.4rem;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-home:hover {
+            background: #1e293b;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.25);
+        }
+
+        /* ===== Section 通用样式 ===== */
+        .section {
+            margin-bottom: 2.8rem;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #0f172a;
+            border-bottom: 2px solid #eef2f6;
+            padding-bottom: 0.4rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .section-title i {
+            color: #2563eb;
+            font-size: 1.3rem;
+            width: 1.8rem;
+        }
+
+        /* ===== 链接列表 ===== */
+        .link-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem 1.5rem;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 8px;
+            transition: 0.2s;
+            text-decoration: none;
+            color: #1e293b;
+            font-size: 0.95rem;
+        }
+        .link-item:hover {
+            background: #f1f5f9;
+            color: #2563eb;
+        }
+        .link-item i {
+            color: #2563eb;
+            font-size: 0.9rem;
+            width: 1.4rem;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .link-item .external-icon {
+            color: #94a3b8;
+            font-size: 0.7rem;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+        .link-item .badge {
+            font-size: 0.6rem;
+            background: #dbeafe;
+            color: #2563eb;
+            padding: 0.1rem 0.5rem;
+            border-radius: 40px;
+            margin-left: 0.3rem;
+            flex-shrink: 0;
+        }
+
+        /* ===== 典型网页链接（卡片式） ===== */
+        .site-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .site-card {
+            background: #f8fafc;
+            border: 1px solid #eef2f6;
+            border-radius: 12px;
+            padding: 1rem 1.2rem;
+            transition: 0.2s;
+            text-decoration: none;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .site-card:hover {
+            border-color: #2563eb;
+            background: #f1f6fe;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
+        }
+        .site-card .icon-box {
+            width: 44px;
+            height: 44px;
+            background: #dbeafe;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2563eb;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+        .site-card .info {
+            flex: 1;
+            min-width: 0;
+        }
+        .site-card .info .name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .site-card .info .desc {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 0.1rem;
+        }
+        .site-card .external-icon {
+            color: #94a3b8;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 768px) {
+            .page-container { padding: 1.5rem; }
+            .page-header { flex-direction: column; align-items: stretch; }
+            .page-header h1 { font-size: 1.4rem; }
+            .btn-home { justify-content: center; }
+            .link-grid { grid-template-columns: 1fr; }
+            .site-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            body { padding: 0.8rem; }
+            .page-container { padding: 1rem; }
+            .section-title { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-container">
+
+    <!-- ===== 顶部 ===== -->
+    <div class="page-header">
+        <h1><i class="fas fa-link"></i> 资源汇总</h1>
+        <a href="index.html" class="btn-home" target="_blank">
+            <i class="fas fa-arrow-left"></i> 返回主页
+        </a>
+    </div>
+
+    <!-- ===== 1. 足迹 ===== -->
+    <section class="section">
+        <div class="section-title"><i class="fas fa-shoe-prints"></i> 足迹</div>
+        <div class="link-grid">
+            <a href="https://www.yuque.com/upcxailixin/kg6nv7/rg5lt1nguoiqhs52" target="_blank" class="link-item">
+                <i class="fas fa-book"></i> 团队知识库 · 语雀
+                <span class="external-icon"><i class="fas fa-external-link-alt"></i></span>
+            </a>
+            <!-- 可继续添加其他足迹链接 -->
+        </div>
+    </section>
+
+    <!-- ===== 2. 昕哥课堂 ===== -->
+    <section class="section">
+        <div class="section-title"><i class="fas fa-chalkboard-teacher"></i> 昕哥课堂</div>
+        <div class="link-grid">
+            <a href="https://www.yuque.com/books/share/c1ff7e04-3ce9-4665-9c65-499c2faf27bf?#" target="_blank" class="link-item">
+                <i class="fas fa-code"></i> C++简明教程
+                <span class="badge">语雀</span>
+                <span class="external-icon"><i class="fas fa-external-link-alt"></i></span>
+            </a>
+            <a href="https://www.bilibili.com/video/BV1P741147iu?spm_id_from=333.999.0.0" target="_blank" class="link-item">
+                <i class="fab fa-python"></i> 数据分析 (Python)
+                <span class="badge">B站</span>
+                <span class="external-icon"><i class="fas fa-external-link-alt"></i></span>
+            </a>
+            <a href="tjxxff/index.html" target="_blank" class="link-item">
+                <i class="fas fa-chart-line"></i> 统计学习方法
+                <span class="badge">本地</span>
+            </a>
+			<a href="https://blinkfy.github.io/CVClass/" target="_blank" class="link-item">
+                <i class="fab fa-python"></i> 计算机视觉通识教育平台
+                <span class="badge">学生徐延飞搭建</span>
+                <span class="external-icon"><i class="fas fa-external-link-alt"></i></span>
+            </a>
+            <a href="https://space.bilibili.com/425602399" target="_blank" class="link-item">
+                <i class="fab fa-bilibili"></i> B站主页
+                <span class="external-icon"><i class="fas fa-external-link-alt"></i></span>
+            </a>
+        </div>
+    </section>
+
+    <!-- ===== 3. 技术文章 ===== -->
+    <section class="section">
+        <div class="section-title"><i class="fas fa-file-alt"></i> 技术文章</div>
+        <div class="link-grid">
+            <a href="https://www.yuque.com/upcxailixin/kg6nv7/sag86d3ngigm661m" target="_blank" class="link-item">
+                <i class="fas fa-pen-fancy"></i> 如何写高水平论文
+                <span class="badge">语雀</span>
+                <span class="external-icon"><i class="fas fa-external-link-alt"></i></span>
+            </a>
+            <a href="https://www.yuque.com/docs/share/1a705ec8-0b30-48ff-8b98-d5d373c9064a?#" target="_blank" class="link-item">
+                <i class="fas fa-graduation-cap"></i> XAI学习资料
+                <span class="badge">语雀</span>
+                <span class="external-icon"><i class="fas fa-external-link-alt"></i></span>
+            </a>
+            <a href="http://172.19.162.226:5000/" target="_blank" class="link-item">
+                <i class="fas fa-tasks"></i> XAI作业管理系统
+                <span class="external-icon"><i class="fas fa-external-link-alt"></i></span>
+            </a>
+            <a href="https://www.yuque.com/lsnnic/oodnmn/fvugq3vw9x9nkear?singleDoc#Gmn5" target="_blank" class="link-item">
+                <i class="fas fa-list-ul"></i> 学术期刊列表
+                <span class="badge">语雀</span>
+                <span class="external-icon"><i class="fas fa-external-link-alt"></i></span>
+            </a>
+            <a href="https://mp.weixin.qq.com/s/MxMLO1XWDPomWm0a1dvPLA" target="_blank" class="link-item">
+                <i class="fas fa-newspaper"></i> 计算机-AI期刊最新影响因子
+                <span class="badge">微信</span>
+                <span class="external-icon"><i class="fas fa-external-link-alt"></i></span>
+            </a>
+            <a href="https://mp.weixin.qq.com/s/tZTYpmetmnbXWKjMg5DweA" target="_blank" class="link-item">
+                <i class="fas fa-globe-asia"></i> 遥感领域高质量期刊分级目录
+                <span class="badge">微信</span>
+                <span class="external-icon"><i class="fas fa-external-link-alt"></i></span>
+            </a>
+            <a href="http://172.19.128.214:8889/" target="_blank" class="link-item">
+                <i class="fas fa-server"></i> notebookForMe
+                <span class="external-icon"><i class="fas fa-external-link-alt"></i></span>
+            </a>
+            <a href="http://172.19.128.214:8887/" target="_blank" class="link-item">
+                <i class="fas fa-laptop-code"></i> notebookForClient
+                <span class="external-icon"><i class="fas fa-external-link-alt"></i></span>
+            </a>
+        </div>
+    </section>
+
+    <!-- ===== 4. 微信链接（新增） ===== -->
+    <section class="section">
+        <div class="section-title"><i class="fas fa-star"></i> valid微信链接</div>
+        <div class="site-grid">
+            <a href="https://mp.weixin.qq.com/s/anXhxr2GNkfQ6qOdHEI38A" target="_blank" class="site-card">
+                <div class="icon-box"><i class="fas fa-home"></i></div>
+                <div class="info">
+                    <div class="name">读博记录</div>
+                    <div class="desc">如何能高效的完成论文撰写</div>
+                </div>
+                <span class="external-icon"><i class="fas fa-external-link-alt"></i></span>
+            </a>
+            <a href="https://mp.weixin.qq.com/s/htbR9wh3h4qrFZ_Vphgmhg" target="_blank" class="site-card">
+                <div class="icon-box"><i class="fas fa-file-alt"></i></div>
+                <div class="info">
+                    <div class="name">GeoLibre</div>
+                    <div class="desc">新一代云原生地理空间信息平台</div>
+                </div>
+                <span class="external-icon"><i class="fas fa-external-link-alt"></i></span>
+            </a>
+            <a href="https://scholar.google.com/citations?user=xxxxx" target="_blank" class="site-card">
+                <div class="icon-box"><i class="fas fa-graduation-cap"></i></div>
+                <div class="info">
+                    <div class="name">论文写作经验</div>
+                    <div class="desc">10条写作经验</div>
+                </div>
+                <span class="external-icon"><i class="fas fa-external-link-alt"></i></span>
+            </a>
+            <a href="https://github.com/cinger007" target="_blank" class="site-card">
+                <div class="icon-box"><i class="fab fa-github"></i></div>
+                <div class="info">
+                    <div class="name">十大前沿问题</div>
+                    <div class="desc">遥感科学与技术领域十大前沿问题</div>
+                </div>
+                <span class="external-icon"><i class="fas fa-external-link-alt"></i></span>
+            </a>
+            <a href="https://mp.weixin.qq.com/s/RNVGQXRGPr8UxAWP3SPXEg" target="_blank" class="site-card">
+                <div class="icon-box"><i class="fab fa-orcid"></i></div>
+                <div class="info">
+                    <div class="name">如何发一区</div>
+                    <div class="desc">发一区论文经验</div>
+                </div>
+                <span class="external-icon"><i class="fas fa-external-link-alt"></i></span>
+            </a>
+            <a href="https://mp.weixin.qq.com/s/9f7BniYyX9x82dUtZwmoEQ" target="_blank" class="site-card">
+                <div class="icon-box"><i class="fas fa-feather-alt"></i></div>
+                <div class="info">
+                    <div class="name">7个科研习惯</div>
+                    <div class="desc">博士5年发8篇SCI</div>
+                </div>
+                <span class="external-icon"><i class="fas fa-external-link-alt"></i></span>
+            </a>
+        </div>
+    </section>
+
+    <!-- ===== 底部 ===== -->
+    <footer style="margin-top:1.5rem; padding-top:1.2rem; border-top:1px solid #eef2f6; text-align:center; font-size:0.8rem; color:#94a3b8;">
+        © 2026 李昕课题组 · 资源汇总 · 持续更新
+    </footer>
+
+</div>
+
+</body>
+</html>

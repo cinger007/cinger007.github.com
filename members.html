@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>团队成员 · XAI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #f5f7fa;
+            color: #1e2a3a;
+            padding: 2rem 1.5rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* 头部 + 筛选 + 首页链接 */
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            background: white;
+            padding: 1rem 1.8rem;
+            border-radius: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            border: 1px solid #edf2f7;
+        }
+
+        .toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .toolbar-left h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: #0b1a2a;
+        }
+
+        .home-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: #1f5b9e;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 40px;
+            background: #f0f6ff;
+            transition: background 0.2s, color 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .home-link:hover {
+            background: #e3edff;
+            color: #0f3f7a;
+            border-color: #c0d6f5;
+        }
+
+        .home-link svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-group label {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .filter-group select {
+            padding: 0.5rem 2rem 0.5rem 1rem;
+            border-radius: 40px;
+            border: 1px solid #dce1e8;
+            background: white;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #1f2a36;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath fill='%23333' d='M6 7L0 0h12z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 12px;
+            cursor: pointer;
+            transition: border 0.2s;
+        }
+
+        .filter-group select:focus {
+            outline: none;
+            border-color: #3b7cff;
+            box-shadow: 0 0 0 3px rgba(59, 124, 255, 0.15);
+        }
+
+        /* 卡片网格 ———— 使用 Grid 实现多列 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .member-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+            padding: 1.8rem 1.8rem;
+            border: 1px solid #edf2f7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .member-card:hover {
+            box-shadow: 0 16px 32px rgba(0,0,0,0.07);
+        }
+
+        .image-container {
+            flex: 0 0 140px;
+            width: 140px;
+            margin: 0 auto 1rem;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 50%;
+            border: 3px solid #eaeef3;
+            display: block;
+            background: #f0f4fa;
+            object-fit: cover;
+            aspect-ratio: 1 / 1;
+        }
+
+        .content {
+            width: 100%;
+            min-width: 0;
+        }
+
+        .member-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #0b1a2a;
+            margin-bottom: 0.2rem;
+        }
+
+        .member-meta {
+            font-size: 0.95rem;
+            color: #3a4c62;
+            margin-bottom: 0.3rem;
+        }
+
+        .member-meta .tag {
+            display: inline-block;
+            background: #eef3fc;
+            padding: 0.05rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #1f5b9e;
+            margin-left: 0.4rem;
+        }
+
+        .member-email {
+            font-size: 0.92rem;
+            color: #1f5b9e;
+            margin-top: 0.2rem;
+        }
+
+        .member-email a {
+            color: #1f5b9e;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border 0.15s;
+        }
+
+        .member-email a:hover {
+            border-bottom-color: #1f5b9e;
+        }
+
+        .mentor-badge {
+            background: #eaf5e8;
+            color: #1f7b4a;
+            font-weight: 500;
+            font-size: 0.75rem;
+            padding: 0.1rem 0.8rem;
+            border-radius: 30px;
+            margin-left: 0.6rem;
+            vertical-align: middle;
+        }
+
+        .member-memo {
+            font-size: 0.88rem;
+            color: #6b7b8f;
+            margin-top: 0.4rem;
+            padding: 0.2rem 0.6rem;
+            background: #f8f9fb;
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        .empty-state {
+            background: white;
+            padding: 4rem 2rem;
+            border-radius: 32px;
+            text-align: center;
+            color: #6b7b8f;
+            font-size: 1.1rem;
+            border: 1px dashed #d0d9e3;
+            grid-column: 1 / -1;
+        }
+
+        /* 响应式：手机单列 */
+        @media (max-width: 700px) {
+            .toolbar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.8rem;
+                padding: 1.2rem;
+            }
+
+            .toolbar-left {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+
+            .member-card {
+                padding: 1.2rem;
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-items: center;
+                text-align: left;
+                gap: 1rem;
+            }
+
+            .image-container {
+                flex: 0 0 80px;
+                width: 80px;
+                margin: 0;
+            }
+
+            .content {
+                flex: 1;
+                min-width: 140px;
+            }
+
+            .member-name {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* 平板适配 */
+        @media (min-width: 701px) and (max-width: 1024px) {
+            .card-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <div class="toolbar">
+        <div class="toolbar-left">
+            <h1>👥 团队成员</h1>
+            <a href="index.html" class="home-link">
+                <svg viewBox="0 0 24 24" width="18" height="18"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                首页
+            </a>
+        </div>
+        <div class="filter-group">
+            <label for="gradeFilter">年级筛选：</label>
+            <select id="gradeFilter">
+                <option value="all">全部</option>
+                <option value="研2026">研2026</option>
+                <option value="研2025">研2025</option>
+				<option value="研2024">研2024</option>
+                <option value="研2023">研2023</option>				
+                <option value="研2022">研2022</option>
+                <option value="研2021">研2021</option>
+                <option value="研2020">研2020</option>
+                <option value="研2019">研2019</option>
+                <option value="研2017">研2017</option>
+				<option value="本研">本研</option>
+                <option value="本科">本科</option>
+                <option value="导师">导师</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="card-grid" id="memberGrid">
+        <!-- 动态渲染 -->
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ---------- 团队成员数据 (增加 memo 字段) ----------
+        const membersData = [
+            // 导师
+            {
+                name: "李昕",
+                gender: "男",
+                grade: "导师",
+                email: "lix@upc.edu.cn",
+                wechat: "cinger007",
+                phone: "0532-86980623",
+                img: "assets/img/导师李昕.jpeg",
+                memo: "团队负责人"
+            },
+            // 学生
+            { name: "陈文浩", gender: "男", grade: "研2026", img: "assets/img/陈文浩.jpg", memo: "" },
+            { name: "张涵", gender: "女", grade: "研2026", img: "assets/img/张涵.jpg", memo: "" },
+            { name: "马卿", gender: "男", grade: "研2026", img: "assets/img/马卿.jpg", memo: "" },
+            { name: "伍奔悦", gender: "女", grade: "研2025", img: "assets/img/伍奔悦.jpg", memo: "" },
+            { name: "张永祺", gender: "男", grade: "研2025", img: "assets/img/张永祺.jpg", memo: "" },
+            { name: "张琳", gender: "女", grade: "研2025", img: "assets/img/张琳.jpg", memo: "" },
+            { name: "刘海旭", gender: "男", grade: "研2025", img: "assets/img/刘海旭.jpg", memo: "" },
+            { name: "王文婕", gender: "女", grade: "本科2020", img: "assets/img/王文婕.jpg", memo: "中科院保研" },
+            { name: "廖集秀", gender: "女", grade: "本研2020", img: "assets/img/廖集秀.jpeg", memo: "SCI二区 · 优秀毕业生" },
+            { name: "孙百乐", gender: "男", grade: "本研2020", img: "assets/img/孙百乐.jpg", memo: "优秀毕业生" },
+            { name: "刘奕彤", gender: "女", grade: "本科2020", img: "assets/img/刘奕彤2.jpg", memo: "山东大学保研" },
+            { name: "刘俊德", gender: "男", grade: "本科2020", img: "assets/img/%E5%88%98%E4%BF%8A%E5%BE%B7.jpg", memo: "北航保研" },
+			{ name: "董欣", gender: "女", grade: "研2024", img: "assets/img/董欣.jpg", memo: "CCF-B会议IJCAI" },
+            { name: "李润森", gender: "男", grade: "研2024", img: "assets/img/李润森.jpg", memo: "" },
+            { name: "刘晋宇", gender: "男", grade: "研2024", img: "assets/img/刘晋宇.jpg", memo: "" },
+            { name: "王永铮", gender: "男", grade: "研2024", img: "assets/img/王永铮.jpg", memo: "" },
+            { name: "魏若玉", gender: "女", grade: "研2024", img: "assets/img/魏若玉.jpg", memo: "SCI一区" },
+            { name: "杨宗驰", gender: "男", grade: "研2023", img: "assets/img/杨宗驰.jpeg", memo: "" },
+            { name: "黄增尧", gender: "男", grade: "研2023", img: "assets/img/黄增尧.jpeg", memo: "" },
+            { name: "战祥杰", gender: "男", grade: "研2023", img: "assets/img/战祥杰.jpeg", memo: "SCI一区 · 优秀毕业生" },
+            { name: "李文龙", gender: "男", grade: "研2023", img: "assets/img/李文龙.jpeg", memo: "" },
+            { name: "刘雯", gender: "女", grade: "研2022", img: "assets/img/刘雯.jpeg", memo: "" },
+            { name: "杨述敏", gender: "男", grade: "研2022", img: "assets/img/杨述敏.jpeg", memo: "SCI二区" },
+            { name: "邱元博", gender: "男", grade: "研2022", img: "assets/img/邱元博.jpg", memo: "SCI一区" },
+            { name: "韩睿毅", gender: "男", grade: "研2022", img: "assets/img/韩睿毅.jpg", memo: "" },
+            { name: "魏子帅", gender: "男", grade: "研2022", img: "assets/img/魏子帅_1.jpg", memo: "CCF-B会议" },
+            { name: "刘镇毅", gender: "男", grade: "研2022", img: "assets/img/刘镇毅.jpeg", memo: "SCI二区" },
+            { name: "类兴华", gender: "女", grade: "研2021", img: "assets/img/类兴华.jpg", memo: "SCI二区" },
+            { name: "赵晓飞", gender: "男", grade: "研2021", img: "assets/img/赵晓飞.jpg", memo: "SCI一区" },
+            { name: "刘凯", gender: "男", grade: "研2021", img: "assets/img/刘凯.jpg", memo: "" },
+            { name: "王富胜", gender: "男", grade: "研2021", email: "evanfree135@163.com", img: "assets/img/王富胜.jpeg", memo: "SCI二区" },
+            { name: "郭华", gender: "男", grade: "研2021", email: "evanfree135@163.com", img: "assets/img/郭华2.jpg", memo: "" },
+            { name: "陈晓莹", gender: "女", grade: "研2020", img: "assets/img/陈晓莹.jpg", memo: "SCI二区" },
+            { name: "李珊", gender: "女", grade: "研2020", img: "assets/img/李珊.jpg", memo: "" },
+            { name: "刘航源", gender: "男", grade: "研2020", img: "assets/img/刘航源.jpeg", memo: "" },
+            { name: "王志宽", gender: "男", grade: "研2020", img: "assets/img/王志宽.jpg", memo: "SCI一区" },
+            { name: "刘冰", gender: "男", grade: "研2019", img: "assets/img/刘冰照片.jpeg", memo: "" },
+            { name: "段青青", gender: "女", grade: "研2017", img: "assets/img/段青青.jpeg", memo: "" }
+        ];
+
+        // ---------- 渲染 ----------
+        const grid = document.getElementById('memberGrid');
+        const filterSelect = document.getElementById('gradeFilter');
+
+        function renderMembers(filterGrade) {
+            // 先筛选
+            let filtered = membersData.filter(m => {
+                if (filterGrade === 'all') return true;
+				if (filterGrade === '本研') return m.grade.slice(0, 2) === filterGrade;
+				if (filterGrade === '本科') return m.grade.slice(0, 2) === filterGrade;
+                return m.grade === filterGrade;
+            });
+
+            if (!filtered.length) {
+                grid.innerHTML = `<div class="empty-state">暂无该年级成员</div>`;
+                return;
+            }
+
+            // 排序：导师始终在最前，其余按年级降序
+            const gradeOrder = { '导师': 0, '研2026': 1, '研2025': 2, '研2023': 3, '研2022': 4, '研2021': 5, '研2020': 6, '研2019': 7, '研2017': 8, '本研2020': 9, '本2020': 10 };
+            const sorted = [...filtered].sort((a, b) => {
+                const orderA = gradeOrder[a.grade] ?? 99;
+                const orderB = gradeOrder[b.grade] ?? 99;
+                return orderA - orderB;
+            });
+
+            let html = '';
+            sorted.forEach(m => {
+                const isMentor = m.grade === '导师';
+                const gradeDisplay = m.grade;
+                const genderIcon = m.gender === '男' ? '♂' : '♀';
+                const emailHtml = m.email ? `<div class="member-email">📧 <a href="mailto:${m.email}">${m.email}</a></div>` : '';
+                const wechatHtml = m.wechat ? `<div class="member-email">💬 微信：${m.wechat}</div>` : '';
+                const phoneHtml = m.phone ? `<div class="member-email">📞 ${m.phone}</div>` : '';
+                // 备注字段：如果有内容则显示
+                const memoHtml = m.memo ? `<div class="member-memo">📌 ${m.memo}</div>` : '';
+                const mentorBadge = isMentor ? `<span class="mentor-badge">导师</span>` : '';
+
+                html += `
+                    <div class="member-card">
+                        <div class="image-container">
+                            <img src="${m.img || 'assets/img/placeholder.png'}" alt="${m.name}" loading="lazy">
+                        </div>
+                        <div class="content">
+                            <div class="member-name">${m.name} ${mentorBadge}</div>
+                            <div class="member-meta">
+                                ${genderIcon} ${m.gender} · <span class="tag">${gradeDisplay}</span>
+                            </div>
+                            ${emailHtml}
+                            ${wechatHtml}
+                            ${phoneHtml}
+                            ${memoHtml}
+                        </div>
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = html;
+        }
+
+        // ---------- 监听筛选 ----------
+        filterSelect.addEventListener('change', function() {
+            renderMembers(this.value);
+        });
+
+        // 首次渲染 (全部)
+        renderMembers('all');
+    })();
+</script>
+</body>
+</html>
