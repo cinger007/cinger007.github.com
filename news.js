@@ -4,6 +4,11 @@
 
 const newsData = [
     { 
+        date: '2026.10.17', 
+        text: '作为程序委员会主席组织并参加第四届山东省计算机视觉大会', 
+        icon: 'fa-user-plus' 
+    },
+    { 
         date: '2026.09.20', 
         text: '小红书官网<a href="https://www.xiaohongshu.com/explore/6aabd8f8000000000d02652c?app_platform=ios&app_version=9.37&share_from_user_hidden=true&xsec_source=app_share&type=video&xsec_token=CB75j1r60l6dhX_H8GlKagJjbMzszBqCJRu8JatfR7WMU=&author_share=1&xhsshare=WeixinSession&shareRedId=ODk7NDM3Sjw2NzUyOTgwNjg6OTk9NktO&apptime=1789896200&share_id=0d774edf3f4641f995bdf9bb9d1ecc0d&track_code=3BN41Q7p4bf&wechatWid=15b17f030f9a5fcc3ad25b9215158384&wechatOrigin=menu">探校视频</a>，组内多位师生有幸出镜。', 
         icon: 'fa-user-plus' 
