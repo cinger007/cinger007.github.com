@@ -10,7 +10,7 @@ const newsData = [
     },
     { 
         date: '2026.10.17', 
-        text: '作为<<a href="./assets/img/山东省计算机视觉大会程序委员会主席SDCV感谢牌.jpg">程序委员会主席</a>组织并参加第四届山东省计算机视觉大会', 
+        text: '作为<a href="./assets/img/山东省计算机视觉大会程序委员会主席SDCV感谢牌.jpg">程序委员会主席</a>组织并参加第四届山东省计算机视觉大会', 
         icon: 'fa-user-plus' 
     },
     { 
