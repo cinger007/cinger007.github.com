@@ -3,9 +3,15 @@
 // ============================================================
 
 const newsData = [
+    assets/img/山东省计算机视觉大会.jpg
     { 
         date: '2026.10.17', 
-        text: '作为程序委员会主席组织并参加第四届山东省计算机视觉大会', 
+        text: 'CCF YOCSEF 青岛成员与李沐的老师James Kwok<img src="./assets/img/山东省计算机视觉大会.jpg">合影</img>', 
+        icon: 'fa-user-plus' 
+    },
+    { 
+        date: '2026.10.17', 
+        text: '作为<img src="./assets/img/山东省计算机视觉大会程序委员会主席SDCV感谢牌.jpg">程序委员会主席</img>组织并参加第四届山东省计算机视觉大会', 
         icon: 'fa-user-plus' 
     },
     { 
