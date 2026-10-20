@@ -3,7 +3,6 @@
 // ============================================================
 
 const newsData = [
-    assets/img/山东省计算机视觉大会.jpg
     { 
         date: '2026.10.17', 
         text: 'CCF YOCSEF 青岛成员与李沐的老师James Kwok<img src="./assets/img/山东省计算机视觉大会.jpg">合影</img>', 
