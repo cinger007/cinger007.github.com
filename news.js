@@ -4,6 +4,11 @@
 
 const newsData = [
     { 
+        date: '2026.10.22', 
+        text: '邀请刚毕业的校友李淳涵给全组做报告，探讨CCF A论文的写作技巧', 
+        icon: 'fa-user-plus' 
+    },
+    { 
         date: '2026.10.17', 
         text: 'CCF YOCSEF 青岛成员与李沐的老师James Kwok<a href="./assets/img/山东省计算机视觉大会.jpg">合影</a>', 
         icon: 'fa-user-plus' 
